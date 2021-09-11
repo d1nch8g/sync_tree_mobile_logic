@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Bad Word Filter
 class Filter {
   bool isProfane(String stringToTest) {
     final lowerCaseStringToTest = stringToTest.toLowerCase();

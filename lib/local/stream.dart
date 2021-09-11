@@ -10,11 +10,14 @@ enum Trigger {
   marketMessagesUpdate,
 }
 
-void triggerEvent(Trigger event) {
-  mainStreamController.add(event);
+void triggerEvent({required Trigger trigger}) {
+  mainStreamController.add(trigger);
 }
 
-void triggerListener(Trigger trigger, Function onEventAction) {
+void triggerListener({
+  required Trigger trigger,
+  required Function onEventAction,
+}) {
   mainStream.listen((event) {
     if (trigger == event) {
       onEventAction();

@@ -1,11 +1,11 @@
 library sync_tree_dart_crypt;
 
 export "local/storage.dart";
-export "local/keys.dart";
+export 'local/crypto.dart';
 export "local/stream.dart";
 export "local/password.dart";
 export "local/filter.dart";
-export 'local/keys.dart';
+export 'local/crypto.dart';
 export "net/api.pbenum.dart";
 export "net/api.pb.dart";
 export "net/unified_calls.dart";
