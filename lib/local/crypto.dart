@@ -66,7 +66,7 @@ class PrivateKey {
   }
 
   Uint8List intToBytes(int value) {
-    return Uint8List(8)..buffer.asByteData().setInt64(0, value, Endian.big);
+    return Uint8List(8)..buffer.asByteData().setInt64(0, value, Endian.little);
   }
 
   Future<Uint8List> signData(Uint8List data) async {
