@@ -10,7 +10,9 @@ enum Trigger {
   marketMessagesUpdate,
 }
 
-void triggerEvent({required Trigger trigger}) {
+void triggerEvent({
+  required Trigger trigger,
+}) {
   mainStreamController.add(trigger);
 }
 
