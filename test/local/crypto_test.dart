@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
@@ -29,7 +31,16 @@ void main() {
   test('private key integer to bytes', () async {
     var band = await generateKeysBand();
     var bytes = band.personalPrivate.intToBytes(19237);
-    print(bytes);
-    print(bytes[0]);
+    if (bytes[0] != 37) {
+      fail('failed to convert ineger value to bytes');
+    }
+  });
+  test('private key sign data array', () async {
+    var band = await generateKeysBand();
+    var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
+    var sign = await band.personalPrivate.signData(bytes);
+    if (sign.length != 256) {
+      fail('sign length is wrong, something is bad');
+    }
   });
 }
