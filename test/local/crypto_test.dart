@@ -39,8 +39,9 @@ void main() {
     var band = await generateKeysBand();
     var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
     var sign = await band.personalPrivate.signData(bytes);
-    if (sign.length != 256) {
-      fail('sign length is wrong, something is bad');
+    if (sign.length != 512) {
+      fail('sign length is wrong, something is bad ${sign.length}');
     }
   });
+  
 }
