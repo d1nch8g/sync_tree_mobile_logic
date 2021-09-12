@@ -30,7 +30,7 @@ class Filter {
     return false;
   }
 
-  /// checks string wether it contains any bad words
+  /// returns empty string if check is operated fine, and error str if not
   String operateCheck(text) {
     if (isProfane(text)) {
       return 'name contains profane words';
