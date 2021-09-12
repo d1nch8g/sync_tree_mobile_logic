@@ -32,17 +32,20 @@ Future<bool> userCreate() async {
   return response.passed;
 }
 
-Future<bool> userUpdate(
-  Uint8List publicKey,
-  Uint8List messageKey,
-  String name,
-  Uint8List sign,
-) async {
+Future<bool> userUpdate() async {
+  var storageKey = await loadValue(StorageKey.keys);
+  var publicName = await loadValue(StorageKey.publicName);
+  var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
+  var sign = await keys.persPriv.signList([
+    keys.persPub.bytes,
+    keys.mesPub.bytes,
+    publicName,
+  ]);
   final response = await stub.userUpdate(
     UserUpdateRequest(
-      publicKey: publicKey,
-      messsageKey: messageKey,
-      publicName: name,
+      publicKey: keys.persPub.bytes,
+      messsageKey: keys.mesPub.bytes,
+      publicName: publicName,
       sign: sign,
     ),
   );

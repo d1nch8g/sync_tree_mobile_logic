@@ -122,5 +122,10 @@ void main() {
       fail('new user should be created');
     }
   });
-  
+  test('update user information', () {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'holac',
+    });
+  });
 }
