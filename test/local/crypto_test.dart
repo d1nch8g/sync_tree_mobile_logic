@@ -82,4 +82,39 @@ void main() {
       fail('some error in ecnryption/decryption module');
     }
   });
+  test('public key from bytes', () async {
+    var band = await generateKeysBand();
+    var priv = PublicKey.fromBytes(bytes: band.messagePublic.bytes);
+    if (priv.pem.length < 50) {
+      fail('failed to convert bytes to public key');
+    }
+  });
+  test('public key from pem', () async {
+    var band = await generateKeysBand();
+    var priv = PublicKey.fromPEM(pem: band.messagePublic.pem);
+    if (priv.bytes.length < 50) {
+      fail('failed to convert pem string to public key');
+    }
+  });
+  test('public get hash adress bytes/base64', () async {
+    var band = await generateKeysBand();
+    var adressBase64 = band.personalPublic.getAdressBase64();
+    var adressBytes = band.personalPublic.getAdressBytes();
+    if (adressBytes.length < 50 || adressBase64.length < 50) {
+      fail('key bytes converted to adress incorrectly');
+    }
+  });
+  test('key band single string exort/import', () async {
+    var keyBand = await generateKeysBand();
+    var keyBandString = keyBand.multiKeyStirng;
+    var keyBandFromString = KeysBand.fromSingleString(
+      multiKeyStirng: keyBandString,
+    );
+    if (keyBand.messagePrivate.toString() !=
+            keyBandFromString.messagePrivate.toString() ||
+        keyBand.personalPublic.toString() !=
+            keyBand.personalPublic.toString()) {
+      fail('some error importing/exporting keys from/to single string line');
+    }
+  });
 }
