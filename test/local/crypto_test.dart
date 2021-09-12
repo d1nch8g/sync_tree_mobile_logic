@@ -43,5 +43,43 @@ void main() {
       fail('sign length is wrong, something is bad ${sign.length}');
     }
   });
-  
+  test('private array to bytes', () async {
+    var band = await generateKeysBand();
+    var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
+    var integer = 282;
+    var string = 'alloha';
+    var byteSum = band.personalPrivate.transformListToByteArray([
+      bytes,
+      integer,
+      string,
+    ]);
+    var goodByteSum = Uint8List.fromList(
+      [1, 2, 3, 4, 5, 26, 1, 0, 0, 0, 0, 0, 0, 97, 108, 108, 111, 104, 97],
+    );
+    if (byteSum.toString() != goodByteSum.toString()) {
+      fail('something went wrong with bytesum');
+    }
+  });
+  test('private key sign data', () async {
+    var band = await generateKeysBand();
+    var bytesToSign = Uint8List.fromList([1, 2, 3, 4, 5, 6]);
+    var sign = await band.personalPrivate.signList([
+      bytesToSign,
+      bytesToSign,
+      bytesToSign,
+    ]);
+    if (sign.length != 512) {
+      fail('sign generated incorrectly');
+    }
+  });
+  test('public encrypt, private decrypt', () async {
+    var band = await generateKeysBand();
+    var untouchedMessage = 'some text';
+    var encryptedMessage = await band.messagePublic.encrypt(untouchedMessage);
+    var decryptedMessage = await band.messagePrivate.decrypt(encryptedMessage);
+    if (decryptedMessage != untouchedMessage ||
+        encryptedMessage == untouchedMessage) {
+      fail('some error in ecnryption/decryption module');
+    }
+  });
 }
