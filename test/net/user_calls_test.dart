@@ -115,7 +115,12 @@ void main() {
     var newKeys = await generateKeys();
     SharedPreferences.setMockInitialValues({
       'keys': newKeys.allKeysString,
+      'publicName': 'holac',
     });
-    
+    var created = await userCreate();
+    if (created == false) {
+      fail('new user should be created');
+    }
   });
+  
 }
