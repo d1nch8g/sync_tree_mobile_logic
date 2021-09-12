@@ -108,6 +108,7 @@ i2OOwBv/8VEoT7sek0zP/RgBhu1HG8NUT/mrSJOvwmMu/QYuwDYArx4GYmoz5gUw
 YcMyC//5G2UjA3qG40ex4OzvoZVJbi/RMQWTOBI9Cb7FRxLyn5jtFDX7hiGNEygl
 phweOgVb+zHAzEtemcZ6wzy50C5mgqZqdwIDAQAB
 -----END RSA PUBLIC KEY-----''';
+
 void main() {
   test('info has trades', () async {
     var hasTrades = await infoHasTrades(
@@ -126,5 +127,7 @@ void main() {
       fail('the name of that market should be bitcoin ftem');
     }
   });
-  test('', () async {});
+  test('info search', () async {});
+  test('info user', () async {});
+  test('info messages', () async {});
 }
