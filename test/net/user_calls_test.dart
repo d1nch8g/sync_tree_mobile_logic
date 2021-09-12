@@ -122,10 +122,14 @@ void main() {
       fail('new user should be created');
     }
   });
-  test('update user information', () {
+  test('update user information', () async {
     SharedPreferences.setMockInitialValues({
       'keys': alcoholKeys,
-      'publicName': 'holac',
+      'publicName': 'Alcohol',
     });
+    var updated = await userUpdate();
+    if (updated == false) {
+      fail('user infotmation should be updated');
+    }
   });
 }
