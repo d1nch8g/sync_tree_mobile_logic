@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
@@ -20,16 +22,19 @@ void main() {
       onTriggerEvent: doSomething,
     );
   });
-  test('stream check if listener is killed after a while', () {
-    var doSomething = () {
-      var x = 1 + 2 + 3;
+  test('stream function triggering test', () {
+    var valueToBeChanged = 1;
+    var valueChanger = () {
+      valueToBeChanged = 2;
     };
-    TestStreamHelperClass.startExisting(
-      createTriggerListener(
-        trigger: Trigger.mainBalanceUpdate,
-        onTriggerEvent: doSomething,
-      ),
+    createTriggerListener(
+      trigger: Trigger.mainBalanceUpdate,
+      onTriggerEvent: valueChanger,
     );
-    
+    triggerEvent(trigger: Trigger.mainBalanceUpdate);
+    sleep(Duration(seconds: 1));
+    if (valueToBeChanged == 1) {
+      fail('value should be changed to 2 after change being triggered');
+    }
   });
 }
