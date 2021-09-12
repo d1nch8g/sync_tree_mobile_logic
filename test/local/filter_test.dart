@@ -16,7 +16,7 @@ void main() {
       fail('filter did not detect too short name');
     }
   });
-  test('filter short name check', () {
+  test('filter wierd symbols check', () {
     var filter = Filter();
     var checked = filter.operateCheck('71827&!@#*sad');
     if (checked == 'name contains bad letters') {

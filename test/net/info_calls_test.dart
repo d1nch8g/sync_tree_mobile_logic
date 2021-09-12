@@ -127,7 +127,14 @@ void main() {
       fail('the name of that market should be bitcoin ftem');
     }
   });
-  test('info search', () async {});
-  test('info user', () async {});
+  test('info search', () async {
+    var foundMarkets = await infoSearch('ftem');
+    if (foundMarkets.length != 2) {
+      fail('the length of found markets should be equal to 2');
+    }
+  });
+  test('info user', () async {
+    
+  });
   test('info messages', () async {});
 }
