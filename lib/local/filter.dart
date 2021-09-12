@@ -6,18 +6,6 @@ class Filter {
         .isNotEmpty;
   }
 
-  String clean(String stringToObfuscate) {
-    final listToTest = stringToObfuscate.split(' ');
-    final clean = listToTest.map((e) {
-      if (wordSet.contains(e.toLowerCase())) {
-        return e.replaceAll(RegExp('.'), '*');
-      }
-      return e;
-    });
-
-    return clean.join(' ');
-  }
-
   bool isShort(String name) {
     if (name.length < 4) {
       return true;
