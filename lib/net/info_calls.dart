@@ -95,7 +95,7 @@ Future<MarketInfo> infoMarket(Uint8List marketAdress) async {
     response.mesKey,
     response.img,
     response.descr,
-    response.opCount as int,
+    response.opCount.toInt(),
     buys,
     sells,
   );

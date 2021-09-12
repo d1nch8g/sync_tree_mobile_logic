@@ -118,4 +118,13 @@ void main() {
       fail('there should not be any trades on that adress');
     }
   });
+  test('info market', () async {
+    var marketInfo = await infoMarket(
+      base64.decode(testMarketAdress),
+    );
+    if (marketInfo.name != 'Bitcoin Ftem') {
+      fail('the name of that market should be bitcoin ftem');
+    }
+  });
+  test('', () async {});
 }
