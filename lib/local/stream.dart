@@ -16,14 +16,14 @@ void triggerEvent({
   mainStreamController.add(trigger);
 }
 
-Function triggerCreateListener({
+Function createTriggerListener({
   required Trigger trigger,
-  required Function onEventAction,
+  required Function onTriggerEvent,
 }) {
   return () {
     mainStream.listen((event) {
       if (trigger == event) {
-        onEventAction();
+        onTriggerEvent();
       }
     });
   };

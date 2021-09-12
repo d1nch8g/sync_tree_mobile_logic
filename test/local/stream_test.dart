@@ -15,16 +15,21 @@ void main() {
     var doSomething = () {
       var x = 1 + 3 + 2;
     };
-    triggerCreateListener(
+    createTriggerListener(
       trigger: Trigger.mainBalanceUpdate,
-      onEventAction: doSomething,
+      onTriggerEvent: doSomething,
     );
   });
   test('stream check if listener is killed after a while', () {
     var doSomething = () {
       var x = 1 + 2 + 3;
     };
-    TestStreamHelperClass.startExisting(() {});
+    TestStreamHelperClass.startExisting(
+      createTriggerListener(
+        trigger: Trigger.mainBalanceUpdate,
+        onTriggerEvent: doSomething,
+      ),
+    );
     
   });
 }
