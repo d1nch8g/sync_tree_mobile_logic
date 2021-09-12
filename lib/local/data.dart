@@ -38,7 +38,6 @@ createTriggerSubscription({
   });
 }
 
-
 class Storage {
   void saveKeys(String keys) async {
     var prefs = await SharedPreferences.getInstance();
@@ -54,12 +53,30 @@ class Storage {
     return keysString;
   }
 
-  void updatePassword()
+  void savePassword(String password) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('password', password);
+  }
+
+  Future<String> loadPassword() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getString('password') ?? '';
+  }
+
+  void saveMainBalance(int balance) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setInt('balance', balance);
+    triggerEvent(trigger: Trigger.mainBalanceUpdate);
+  }
+
+  Future<int> loadMainBalance() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('balance') ?? 0;
+  }
+  
 }
 
 final mapping = {
-  StorageKey.keys: "keys",
-  StorageKey.password: "password",
   StorageKey.mainBalance: "mainBalance",
   StorageKey.connectedWallets: "connectedWallets",
   StorageKey.searchCache: "searchCache",
