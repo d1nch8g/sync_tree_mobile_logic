@@ -1,22 +1,26 @@
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
 
-Future<bool> userCreate(
-  Uint8List publicKey,
-  Uint8List messageKey,
-  String name,
-  Uint8List sign,
-) async {
+Future<bool> userCreate() async {
+  var storageKey = await loadValue(StorageKey.keys);
+  var publicName = await loadValue(StorageKey.publicName);
+  var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
+  var sign = await keys.persPriv.signList([
+    keys.persPub.bytes,
+    keys.mesPub.bytes,
+    publicName,
+  ]);
   final response = await stub
       .userCreate(
     UserCreateRequest(
-      publicKey: publicKey,
-      messsageKey: messageKey,
-      publicName: name,
+      publicKey: keys.persPub.bytes,
+      messsageKey: keys.mesPub.bytes,
+      publicName: publicName,
       sign: sign,
     ),
   )

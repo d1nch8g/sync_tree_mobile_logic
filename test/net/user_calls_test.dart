@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
 var testMarketAdress =
@@ -108,3 +109,13 @@ i2OOwBv/8VEoT7sek0zP/RgBhu1HG8NUT/mrSJOvwmMu/QYuwDYArx4GYmoz5gUw
 YcMyC//5G2UjA3qG40ex4OzvoZVJbi/RMQWTOBI9Cb7FRxLyn5jtFDX7hiGNEygl
 phweOgVb+zHAzEtemcZ6wzy50C5mgqZqdwIDAQAB
 -----END RSA PUBLIC KEY-----''';
+
+void main() {
+  test('user create call', () async {
+    var newKeys = await generateKeys();
+    SharedPreferences.setMockInitialValues({
+      'keys': newKeys.allKeysString,
+    });
+    
+  });
+}

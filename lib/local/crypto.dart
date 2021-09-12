@@ -35,10 +35,10 @@ List<String> generateKeyPEMpair(int bitLength) {
   return [priv, pub];
 }
 
-Future<KeysBand> generateKeysBand() async {
+Future<Keys> generateKeys() async {
   var persKeyPEMpair = await compute(generateKeyPEMpair, 4096);
   var mesKeyPEMpair = await compute(generateKeyPEMpair, 2048);
-  return KeysBand.fromKeys(
+  return Keys.fromKeys(
     personalPrivate: PrivateKey.fromPEM(pem: persKeyPEMpair[0]),
     personalPublic: PublicKey.fromPEM(pem: persKeyPEMpair[1]),
     messagePrivate: PrivateKey.fromPEM(pem: mesKeyPEMpair[0]),
@@ -146,12 +146,12 @@ class PublicKey {
   }
 }
 
-class KeysBand {
-  late String multiKeyStirng;
-  late PrivateKey personalPrivate, messagePrivate;
-  late PublicKey personalPublic, messagePublic;
+class Keys {
+  late String allKeysString;
+  late PrivateKey persPriv, mesPriv;
+  late PublicKey persPub, mesPub;
 
-  KeysBand.fromSingleString({
+  Keys.fromSingleString({
     required String multiKeyStirng,
   }) {
     var keysListToCheck = multiKeyStirng.split('|');
@@ -160,23 +160,23 @@ class KeysBand {
         'Impossible to from keys from a string with wrong length',
       );
     }
-    this.personalPrivate = PrivateKey.fromPEM(pem: keysListToCheck[0]);
-    this.personalPublic = PublicKey.fromPEM(pem: keysListToCheck[1]);
-    this.messagePrivate = PrivateKey.fromPEM(pem: keysListToCheck[2]);
-    this.messagePublic = PublicKey.fromPEM(pem: keysListToCheck[3]);
+    this.persPriv = PrivateKey.fromPEM(pem: keysListToCheck[0]);
+    this.persPub = PublicKey.fromPEM(pem: keysListToCheck[1]);
+    this.mesPriv = PrivateKey.fromPEM(pem: keysListToCheck[2]);
+    this.mesPub = PublicKey.fromPEM(pem: keysListToCheck[3]);
   }
 
-  KeysBand.fromKeys({
+  Keys.fromKeys({
     required PrivateKey personalPrivate,
     required PublicKey personalPublic,
     required PrivateKey messagePrivate,
     required PublicKey messagePublic,
   }) {
-    this.personalPrivate = personalPrivate;
-    this.personalPublic = personalPublic;
-    this.messagePrivate = messagePrivate;
-    this.messagePublic = messagePublic;
-    this.multiKeyStirng = [
+    this.persPriv = personalPrivate;
+    this.persPub = personalPublic;
+    this.mesPriv = messagePrivate;
+    this.mesPub = messagePublic;
+    this.allKeysString = [
       personalPrivate.pem,
       personalPublic.pem,
       messagePrivate.pem,

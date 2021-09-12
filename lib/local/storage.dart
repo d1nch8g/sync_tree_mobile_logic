@@ -1,10 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum StorageKey {
-  privateKey,
-  publicKey,
-  privateMessageKey,
-  publicMessageKey,
+  keys,
   password,
   mainBalance,
   connectedWallets,
@@ -13,10 +10,7 @@ enum StorageKey {
 }
 
 final mapping = {
-  StorageKey.privateKey: "privateKey",
-  StorageKey.publicKey: "publicKey",
-  StorageKey.privateMessageKey: "privateMesKey",
-  StorageKey.publicMessageKey: "publicMesKey",
+  StorageKey.keys: "keys",
   StorageKey.password: "password",
   StorageKey.mainBalance: "mainBalance",
   StorageKey.connectedWallets: "connectedWallets",
