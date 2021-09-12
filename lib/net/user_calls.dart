@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
@@ -49,23 +50,32 @@ Future<bool> userUpdate() async {
       sign: sign,
     ),
   );
+
   return response.passed;
 }
 
-Future<bool> userSend(
-  Uint8List publicKey,
-  int amount,
-  Uint8List reciever,
-  Uint8List sign,
-) async {
+Future<bool> userSend(int amount, String recieverAdress) async {
+  var keysString = await loadValue(StorageKey.keys);
+  var keys = Keys.fromSingleString(multiKeyStirng: keysString);
+  var adressBytes = base64.decode(recieverAdress);
+  var sign = await keys.persPriv.signList([
+    keys.persPub.bytes,
+    Int64(amount),
+    adressBytes,
+  ]);
   final response = await stub.userSend(
     UserSendRequest(
-      publicKey: publicKey,
+      publicKey: keys.persPub.bytes,
       sendAmount: Int64(amount),
-      recieverAdress: reciever,
+      recieverAdress: adressBytes,
       sign: sign,
     ),
   );
+  if (response.passed) {
+    var curBalance = int.parse(await loadValue(StorageKey.mainBalance));
+    saveValue(StorageKey.mainBalance, (curBalance - amount).toString());
+    triggerEvent(trigger: Trigger.mainBalanceUpdate);
+  }
   return response.passed;
 }
 
