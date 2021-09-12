@@ -111,28 +111,28 @@ void main() {
     }
   });
   test('private key from bytes test', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var priv = PrivateKey.fromBytes(bytes: band.messagePrivate.bytes);
     if (priv.pem.length < 50) {
       fail('failed to convert bytes to private key');
     }
   });
   test('private key from pem', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var priv = PrivateKey.fromPEM(pem: band.messagePrivate.pem);
     if (priv.bytes.length < 50) {
       fail('failed to convert pem string to private key');
     }
   });
   test('private key integer to bytes', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var bytes = band.personalPrivate.intToBytes(19237);
     if (bytes[0] != 37) {
       fail('failed to convert ineger value to bytes');
     }
   });
   test('private key sign data array', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
     var sign = await band.personalPrivate.signData(bytes);
     if (sign.length != 512) {
@@ -140,7 +140,7 @@ void main() {
     }
   });
   test('private array to bytes', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
     var integer = 282;
     var string = 'alloha';
@@ -157,7 +157,7 @@ void main() {
     }
   });
   test('private key sign data', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var bytesToSign = Uint8List.fromList([1, 2, 3, 4, 5, 6]);
     var sign = await band.personalPrivate.signList([
       bytesToSign,
@@ -169,7 +169,7 @@ void main() {
     }
   });
   test('public encrypt, private decrypt', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var untouchedMessage = 'some text';
     var encryptedMessage = await band.messagePublic.encrypt(untouchedMessage);
     var decryptedMessage = await band.messagePrivate.decrypt(encryptedMessage);
@@ -179,21 +179,21 @@ void main() {
     }
   });
   test('public key from bytes', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var priv = PublicKey.fromBytes(bytes: band.messagePublic.bytes);
     if (priv.pem.length < 50) {
       fail('failed to convert bytes to public key');
     }
   });
   test('public key from pem', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var priv = PublicKey.fromPEM(pem: band.messagePublic.pem);
     if (priv.bytes.length < 50) {
       fail('failed to convert pem string to public key');
     }
   });
   test('public get hash adress bytes/base64', () async {
-    var band = await generateKeysBand();
+    var band = KeysBand.fromSingleString(multiKeyStirng: testKey);
     var adressBase64 = band.personalPublic.getAdressBase64();
     var adressBytes = band.personalPublic.getAdressBytes();
     if (adressBytes.length < 50 || adressBase64.length < 50) {
