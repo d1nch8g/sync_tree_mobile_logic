@@ -148,13 +148,13 @@ Future<UserInfo> infoUser(Uint8List userAdress) async {
     balances.add(
       MarketBalance(
         response.marketAdresses[i] as Uint8List,
-        response.marketBalances[i] as int,
+        response.marketBalances[i].toInt(),
       ),
     );
   }
   return UserInfo(
     response.publicName,
-    response.balance as int,
+    response.balance.toInt(),
     response.mesKey as Uint8List,
     balances,
   );

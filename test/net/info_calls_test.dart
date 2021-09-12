@@ -134,7 +134,12 @@ void main() {
     }
   });
   test('info user', () async {
-    
+    var userInfo = await infoUser(
+      base64.decode(testAlcoholAdress),
+    );
+    if (userInfo.name != 'Alcohol') {
+      fail('user name should be equal to Alcohol');
+    }
   });
   test('info messages', () async {});
 }
