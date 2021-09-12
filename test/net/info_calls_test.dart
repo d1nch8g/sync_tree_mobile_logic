@@ -141,5 +141,13 @@ void main() {
       fail('user name should be equal to Alcohol');
     }
   });
-  test('info messages', () async {});
+  test('info messages', () async {
+    var messages = await infoMessages(
+      base64.decode(testAlcoholAdress),
+      base64.decode(testMarketAdress),
+    );
+    if (messages.length != 0) {
+      fail('there should not be any messages on that user');
+    }
+  });
 }
