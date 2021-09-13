@@ -39,7 +39,7 @@ void main() {
   });
   test('info messages', () async {
     var messages = await infoMessages(
-      base64.decode(testAlcoholAdress),
+      base64.decode(testNicotinAdress),
       base64.decode(testMarketAdress),
     );
     if (messages.length != 0) {

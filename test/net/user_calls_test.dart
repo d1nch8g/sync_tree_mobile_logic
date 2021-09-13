@@ -44,11 +44,11 @@ void main() {
       trigger: Trigger.mainBalanceUpdate,
       onTriggerEvent: trigger,
     );
-    var sent = await userCalls.sendMain(
+    var operated = await userCalls.sendMain(
       1,
       nicoKeys.persPub.getAdressBase64(),
     );
-    if (sent != true) {
+    if (operated != true) {
       fail('this transaction should go well');
     }
     Future.delayed(Duration(seconds: 1), () {
@@ -57,40 +57,63 @@ void main() {
       }
     });
   });
-  test('deposit call', () async {
-    SharedPreferences.setMockInitialValues({
-      'keys': alcoholKeys,
-      'publicName': 'Alcohol',
-      'balance': 10,
-    });
-    var userCalls = UserCalls();
-    var deposit = await userCalls.deposit(testMarketAdress, 100);
-    if (deposit == false) {
-      fail('deposit request should return true');
-    }
-  });
-  test('withdrawal call', () async {
-    SharedPreferences.setMockInitialValues({
-      'keys': alcoholKeys,
-      'publicName': 'Alcohol',
-      'balance': 10,
-    });
-    var userCalls = UserCalls();
-    var deposit = await userCalls.withdrawal(testMarketAdress, 100);
-    if (deposit == false) {
-      fail('withdrawal request should return true');
-    }
-  });
   test('send message call', () async {
     SharedPreferences.setMockInitialValues({
       'keys': alcoholKeys,
       'publicName': 'Alcohol',
-      'balance': 10,
     });
     var userCalls = UserCalls();
-    var sent = await userCalls.sendMessage(testMarketAdress, 'hola');
-    if (sent != true) {
+    var operated = await userCalls.sendMessage(testMarketAdress, 'hola');
+    if (operated == false) {
       fail('the message is not delivered');
     }
   });
+  test('buy call', () async {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userCalls = UserCalls();
+    var operated = await userCalls.sell(testMarketAdress, 10, 10);
+    if (operated == false) {
+      fail('the buy call was not operated');
+    }
+  });
+  test('sell call', () async {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userCalls = UserCalls();
+    var operated = await userCalls.buy(testMarketAdress, 10, 10);
+    if (operated == false) {
+      fail('the sell call was not operated');
+    }
+  });
+  // test('deposit call', () async {
+  //   SharedPreferences.setMockInitialValues({
+  //     'keys': alcoholKeys,
+  //     'publicName': 'Alcohol',
+  //     'balance': 10,
+  //   });
+  //   var userCalls = UserCalls();
+  //   var operated = await userCalls.deposit(testMarketAdress, 100);
+  //   if (operated == false) {
+  //     fail('deposit request should return true');
+  //   }
+  // });
+  // test('withdrawal call', () async {
+  //   SharedPreferences.setMockInitialValues({
+  //     'keys': alcoholKeys,
+  //     'publicName': 'Alcohol',
+  //     'balance': 10,
+  //   });
+  //   var userCalls = UserCalls();
+  //   var operated = await userCalls.withdrawal(testMarketAdress, 100);
+  //   if (operated == false) {
+  //     fail('withdrawal request should return true');
+  //   }
+  // });
 }
