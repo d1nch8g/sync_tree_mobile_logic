@@ -7,10 +7,7 @@ import 'test_data.dart';
 
 void main() {
   test('info has trades', () async {
-    var hasTrades = await infoHasTrades(
-      base64.decode(testMarketAdress),
-      base64.decode(testNicotinAdress),
-    );
+    var hasTrades = await InfoCalls.infoHasTrades(testMarketAdress);
     if (hasTrades != false) {
       fail('there should not be any trades on that adress');
     }
@@ -30,7 +27,7 @@ void main() {
     }
   });
   test('info user', () async {
-    var userInfo = await infoUser(
+    var userInfo = await selfInfo(
       base64.decode(testAlcoholAdress),
     );
     if (userInfo.name != 'Alcohol') {

@@ -62,7 +62,7 @@ class MarketInfo {
 }
 
 class InfoCalls {
-  static Future<bool> infoHasTrades(String marketAdress) async {
+  static Future<bool> selfActiveTradesByAdress(String marketAdress) async {
     var keysStr = await Storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: keysStr);
     final response = await stub.infoHasTrades(
@@ -70,51 +70,85 @@ class InfoCalls {
         userAdress: keys.persPub.getAdressBytes(),
         marketAdress: base64.decode(marketAdress),
       ),
-      options: CallOptions(
-        timeout: Duration(milliseconds: 2584),
-      ),
     );
     return response.passed;
   }
-}
 
-Future<MarketInfo> infoMarket(Uint8List marketAdress) async {
-  final response = await stub.infoMarket(
-    InfoMarketRequest(
-      adress: marketAdress,
-    ),
-  );
-  List<int> buys = [];
-  List<int> sells = [];
-  for (var i = 0; i < response.buys.length; i++) {
-    buys.add(response.buys[i] as int);
+  static Future<MarketInfo> marketInfo(Uint8List marketAdress) async {
+    final response = await stub.infoMarket(
+      InfoMarketRequest(
+        adress: marketAdress,
+      ),
+    );
+    List<int> buys = [];
+    List<int> sells = [];
+    for (var i = 0; i < response.buys.length; i++) {
+      buys.add(response.buys[i] as int);
+    }
+    for (var i = 0; i < response.sells.length; i++) {
+      sells.add(response.sells[i] as int);
+    }
+    final MarketInfo marketInfo = MarketInfo(
+      response.name,
+      response.mesKey,
+      response.img,
+      response.descr,
+      response.opCount.toInt(),
+      buys,
+      sells,
+    );
+    return marketInfo;
   }
-  for (var i = 0; i < response.sells.length; i++) {
-    sells.add(response.sells[i] as int);
-  }
-  final MarketInfo marketInfo = MarketInfo(
-    response.name,
-    response.mesKey,
-    response.img,
-    response.descr,
-    response.opCount.toInt(),
-    buys,
-    sells,
-  );
-  return marketInfo;
-}
 
-Future<List<Uint8List>> infoSearch(String info) async {
-  final response = await stub.infoSearch(
-    InfoSearchRequest(
-      info: info,
-    ),
-  );
-  List<Uint8List> markets = [];
-  response.concMarkets.forEach((marketAdress) {
-    markets.add(marketAdress as Uint8List);
-  });
-  return markets;
+  static Future<List<Uint8List>> searchMarkets(String info) async {
+    final response = await stub.infoSearch(
+      InfoSearchRequest(
+        info: info,
+      ),
+    );
+    List<Uint8List> markets = [];
+    response.concMarkets.forEach((marketAdress) {
+      markets.add(marketAdress as Uint8List);
+    });
+    return markets;
+  }
+
+  static Future<UserInfo> selfInfo() async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
+    final response = await stub.infoUser(
+      InfoUserRequest(
+        adress: keys.persPub.getAdressBytes(),
+      ),
+    );
+    List<MarketBalance> balances = [];
+    for (var i = 0; i < response.marketAdresses.length; i++) {
+      balances.add(
+        MarketBalance(
+          response.marketAdresses[i] as Uint8List,
+          response.marketBalances[i].toInt(),
+        ),
+      );
+    }
+    return UserInfo(
+      response.publicName,
+      response.balance.toInt(),
+      response.mesKey as Uint8List,
+      balances,
+    );
+  }
+
+  Future<List<String>> infoMessages(
+    Uint8List userAdress,
+    Uint8List marketAdress,
+  ) async {
+    final response = await stub.infoMessages(
+      InfoMessagesRequest(
+        userAdress: userAdress,
+        marketAdress: marketAdress,
+      ),
+    );
+    return response.messages;
+  }
 }
 
 class MarketBalance {
@@ -137,40 +171,4 @@ class UserInfo {
     this.mesKey,
     this.marketBalances,
   );
-}
-
-Future<UserInfo> infoUser(Uint8List userAdress) async {
-  final response = await stub.infoUser(
-    InfoUserRequest(
-      adress: userAdress,
-    ),
-  );
-  List<MarketBalance> balances = [];
-  for (var i = 0; i < response.marketAdresses.length; i++) {
-    balances.add(
-      MarketBalance(
-        response.marketAdresses[i] as Uint8List,
-        response.marketBalances[i].toInt(),
-      ),
-    );
-  }
-  return UserInfo(
-    response.publicName,
-    response.balance.toInt(),
-    response.mesKey as Uint8List,
-    balances,
-  );
-}
-
-Future<List<String>> infoMessages(
-  Uint8List userAdress,
-  Uint8List marketAdress,
-) async {
-  final response = await stub.infoMessages(
-    InfoMessagesRequest(
-      userAdress: userAdress,
-      marketAdress: marketAdress,
-    ),
-  );
-  return response.messages;
 }
