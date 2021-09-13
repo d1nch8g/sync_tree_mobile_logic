@@ -37,8 +37,13 @@ void main() {
       'balance': 10,
     });
     var userCalls = UserCalls();
+    var nicoKeys = Keys.fromSingleString(multiKeyStirng: nicotinKeys);
     var sent = await userCalls.sendMain(
-      1, 
-      )
+      1,
+      nicoKeys.persPub.getAdressBase64(),
+    );
+    if (sent != true) {
+      fail('this transaction should go well');
+    }
   });
 }
