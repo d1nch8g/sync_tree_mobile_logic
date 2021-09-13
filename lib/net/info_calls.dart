@@ -86,8 +86,7 @@ class MarketInfo {
 
 class InfoCalls {
   static Future<bool> selfActiveTradesByAdress(String marketAdress) async {
-    var keysStr = await Storage.loadKeys();
-    var keys = Keys.fromSingleString(multiKeyStirng: keysStr);
+    var keys = await Storage.loadKeys();
     final response = await stub.infoHasTrades(
       InfoHasTradesRequest(
         userAdress: keys.personal.public.getAdressBytes(),
@@ -137,7 +136,7 @@ class InfoCalls {
   }
 
   static Future<UserInfo> selfInfo() async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
+    var keys = await Storage.loadKeys();
     final response = await stub.infoUser(
       InfoUserRequest(
         adress: keys.personal.public.getAdressBytes(),
@@ -161,7 +160,7 @@ class InfoCalls {
   }
 
   static Future<List<String>> messages(Uint8List marketAdress) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
+    var keys = await Storage.loadKeys();
     final response = await stub.infoMessages(
       InfoMessagesRequest(
         userAdress: keys.personal.public.getAdressBytes(),

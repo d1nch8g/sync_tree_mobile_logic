@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sync_tree_mobile_logic/local/crypto.dart';
 
 var storageStreamController = StreamController<Trigger>.broadcast();
 var storageStream = storageStreamController.stream;
@@ -18,13 +19,18 @@ class Storage {
     prefs.setString('keys', keys);
   }
 
-  static Future<String> loadKeys() async {
+  static Future<bool> checkIfKeysAreSaved() async {
     var prefs = await SharedPreferences.getInstance();
-    var keysString = prefs.getString('keys');
-    if (keysString == null) {
-      throw Exception('keys should never be null');
+    if (prefs.getString('keys') == null) {
+      return false;
     }
-    return keysString;
+    return true;
+  }
+
+  static Future<Keys> loadKeys() async {
+    var prefs = await SharedPreferences.getInstance();
+    var keysString = prefs.getString('keys')!;
+    return Keys.fromSingleString(multiKeyStirng: keysString);
   }
 
   static void savePassword(String password) async {
