@@ -1,4 +1,4 @@
-library sync_tree_dart_crypt;
+library sync_tree_mobile_logic;
 
 export 'local/storage.dart';
 export 'local/crypto.dart';

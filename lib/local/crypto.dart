@@ -7,6 +7,8 @@ import 'package:pointycastle/pointycastle.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
 
+//TODO move all logic with signing crypting and etc to keys
+
 class KeyPair {
   late final PrivateKey private;
   late final PublicKey public;
@@ -49,17 +51,13 @@ class PrivateKey {
   late String pem;
   late Uint8List bytes;
 
-  PrivateKey.fromBytes({
-    required Uint8List bytes,
-  }) {
+  PrivateKey.fromBytes({required Uint8List bytes}) {
     this.bytes = bytes;
     var key = CryptoUtils.rsaPrivateKeyFromDERBytesPkcs1(bytes);
     this.pem = CryptoUtils.encodeRSAPrivateKeyToPemPkcs1(key);
   }
 
-  PrivateKey.fromPEM({
-    required String pem,
-  }) {
+  PrivateKey.fromPEM({required String pem}) {
     this.pem = pem;
     this.bytes = CryptoUtils.getBytesFromPEMString(pem);
   }
@@ -115,17 +113,13 @@ class PublicKey {
   late String pem;
   late Uint8List bytes;
 
-  PublicKey.fromBytes({
-    required Uint8List bytes,
-  }) {
+  PublicKey.fromBytes({required Uint8List bytes}) {
     this.bytes = bytes;
     var key = CryptoUtils.rsaPublicKeyFromDERBytesPkcs1(bytes);
     this.pem = CryptoUtils.encodeRSAPublicKeyToPem(key);
   }
 
-  PublicKey.fromPEM({
-    required String pem,
-  }) {
+  PublicKey.fromPEM({required String pem}) {
     this.pem = pem;
     this.bytes = CryptoUtils.getBytesFromPEMString(pem);
   }
