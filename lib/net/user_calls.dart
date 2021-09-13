@@ -143,44 +143,46 @@ class UserCalls {
     );
     return response.passed;
   }
-}
 
-Future<bool> userBuy(
-  Uint8List publicKey,
-  Uint8List adress,
-  int recieve,
-  int offer,
-  Uint8List sign,
-) async {
-  final response = await stub.userBuy(
-    UserBuyRequest(
-      publicKey: publicKey,
-      adress: adress,
-      recieve: Int64(recieve),
-      offer: Int64(offer),
-      sign: sign,
-    ),
-  );
-  return response.passed;
-}
+  Future<bool> buy(String marketAdress, int recieve, int offer) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+      recieve,
+      offer,
+    ]);
+    final response = await stub.userBuy(
+      UserBuyRequest(
+        publicKey: keys.persPub.bytes,
+        adress: bytesMarketAdress,
+        recieve: Int64(recieve),
+        offer: Int64(offer),
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
 
-Future<bool> userSell(
-  Uint8List publicKey,
-  Uint8List adress,
-  int recieve,
-  int offer,
-  Uint8List sign,
-) async {
-  final response = await stub.userSell(
-    UserSellRequest(
-      publicKey: publicKey,
-      adress: adress,
-      recieve: Int64(recieve),
-      offer: Int64(offer),
-      sign: sign,
-    ),
-  );
-  return response.passed;
+  Future<bool> sell(
+    Uint8List publicKey,
+    Uint8List adress,
+    int recieve,
+    int offer,
+    Uint8List sign,
+  ) async {
+    final response = await stub.userSell(
+      UserSellRequest(
+        publicKey: publicKey,
+        adress: adress,
+        recieve: Int64(recieve),
+        offer: Int64(offer),
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
 }
 
 Future<bool> userCancelTrade(
