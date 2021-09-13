@@ -159,7 +159,7 @@ class InfoCalls {
     );
   }
 
-  Future<List<String>> infoMessages(Uint8List marketAdress) async {
+  static Future<List<String>> messages(Uint8List marketAdress) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     final response = await stub.infoMessages(
       InfoMessagesRequest(

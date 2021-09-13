@@ -1,13 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
 import 'test_data.dart';
 
 void main() {
   test('info has trades', () async {
-    Share
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
     var hasTrades = await InfoCalls.selfActiveTradesByAdress(testMarketAdress);
     if (hasTrades != false) {
       fail('there should not be any trades on that adress');
@@ -28,18 +33,21 @@ void main() {
     }
   });
   test('info user', () async {
-    var userInfo = await InfoCalls.selfInfo(
-      base64.decode(testAlcoholAdress),
-    );
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userInfo = await InfoCalls.selfInfo();
     if (userInfo.name != 'Alcohol') {
       fail('user name should be equal to Alcohol');
     }
   });
   test('info messages', () async {
-    var messages = await infoMessages(
-      base64.decode(testNicotinAdress),
-      base64.decode(testMarketAdress),
-    );
+    SharedPreferences.setMockInitialValues({
+      'keys': nicotinKeys,
+    });
+    var messages = await InfoCalls.messages(base64.decode(testMarketAdress));
     if (messages.length != 0) {
       fail('there should not be any messages on that user');
     }
