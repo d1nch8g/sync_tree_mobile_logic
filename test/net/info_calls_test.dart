@@ -7,13 +7,14 @@ import 'test_data.dart';
 
 void main() {
   test('info has trades', () async {
-    var hasTrades = await InfoCalls.infoHasTrades(testMarketAdress);
+    Share
+    var hasTrades = await InfoCalls.selfActiveTradesByAdress(testMarketAdress);
     if (hasTrades != false) {
       fail('there should not be any trades on that adress');
     }
   });
   test('info market', () async {
-    var marketInfo = await infoMarket(
+    var marketInfo = await InfoCalls.marketInfo(
       base64.decode(testMarketAdress),
     );
     if (marketInfo.name != 'Bitcoin Ftem') {
@@ -21,13 +22,13 @@ void main() {
     }
   });
   test('info search', () async {
-    var foundMarkets = await infoSearch('ftem');
+    var foundMarkets = await InfoCalls.searchMarkets('ftem');
     if (foundMarkets.length != 2) {
       fail('the length of found markets should be equal to 2');
     }
   });
   test('info user', () async {
-    var userInfo = await selfInfo(
+    var userInfo = await InfoCalls.selfInfo(
       base64.decode(testAlcoholAdress),
     );
     if (userInfo.name != 'Alcohol') {

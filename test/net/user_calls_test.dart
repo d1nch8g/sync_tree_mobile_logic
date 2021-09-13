@@ -11,8 +11,7 @@ void main() {
       'keys': newKeys.allKeysString,
       'publicName': 'holac',
     });
-    var userCalls = UserCalls();
-    var created = await userCalls.create();
+    var created = await UserCalls.create();
     if (created == false) {
       fail('new user should be created');
     }
@@ -22,8 +21,7 @@ void main() {
       'keys': alcoholKeys,
       'publicName': 'Alcohol',
     });
-    var userCalls = UserCalls();
-    var updated = await userCalls.updateName('Alcohol');
+    var updated = await UserCalls.updateName('Alcohol');
     if (updated == false) {
       fail('user infotmation should be updated');
     }
@@ -34,17 +32,16 @@ void main() {
       'publicName': 'Alcohol',
       'balance': 10,
     });
-    var userCalls = UserCalls();
     var nicoKeys = Keys.fromSingleString(multiKeyStirng: nicotinKeys);
     var triggerWasTriggered = false;
     Function trigger = () {
       triggerWasTriggered = true;
     };
-    Storage().createTriggerSubscription(
+    Storage.createTriggerSubscription(
       trigger: Trigger.mainBalanceUpdate,
       onTriggerEvent: trigger,
     );
-    var operated = await userCalls.sendMain(
+    var operated = await UserCalls.sendMain(
       1,
       nicoKeys.persPub.getAdressBase64(),
     );
@@ -62,8 +59,7 @@ void main() {
       'keys': alcoholKeys,
       'publicName': 'Alcohol',
     });
-    var userCalls = UserCalls();
-    var operated = await userCalls.sendMessage(testMarketAdress, 'hola');
+    var operated = await UserCalls.sendMessage(testMarketAdress, 'hola');
     if (operated == false) {
       fail('the message is not delivered');
     }
@@ -74,8 +70,7 @@ void main() {
       'publicName': 'Alcohol',
       'balance': 10,
     });
-    var userCalls = UserCalls();
-    var operated = await userCalls.sell(testMarketAdress, 10, 10);
+    var operated = await UserCalls.sell(testMarketAdress, 10, 10);
     if (operated == false) {
       fail('the buy call was not operated');
     }
@@ -86,8 +81,7 @@ void main() {
       'publicName': 'Alcohol',
       'balance': 10,
     });
-    var userCalls = UserCalls();
-    var operated = await userCalls.buy(testMarketAdress, 10, 10);
+    var operated = await UserCalls.buy(testMarketAdress, 10, 10);
     if (operated == false) {
       fail('the sell call was not operated');
     }
@@ -98,8 +92,8 @@ void main() {
   //     'publicName': 'Alcohol',
   //     'balance': 10,
   //   });
-  //   var userCalls = UserCalls();
-  //   var operated = await userCalls.deposit(testMarketAdress, 100);
+  //   var UserCalls = UserCalls();
+  //   var operated = await UserCalls.deposit(testMarketAdress, 100);
   //   if (operated == false) {
   //     fail('deposit request should return true');
   //   }
@@ -110,8 +104,8 @@ void main() {
   //     'publicName': 'Alcohol',
   //     'balance': 10,
   //   });
-  //   var userCalls = UserCalls();
-  //   var operated = await userCalls.withdrawal(testMarketAdress, 100);
+  //   var UserCalls = UserCalls();
+  //   var operated = await UserCalls.withdrawal(testMarketAdress, 100);
   //   if (operated == false) {
   //     fail('withdrawal request should return true');
   //   }
