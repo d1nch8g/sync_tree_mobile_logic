@@ -1,19 +1,19 @@
 class Filter {
-  bool isProfane(String stringToTest) {
+  static bool _isProfane(String stringToTest) {
     final lowerCaseStringToTest = stringToTest.toLowerCase();
     return wordList
         .where((word) => lowerCaseStringToTest.contains(word))
         .isNotEmpty;
   }
 
-  bool isShort(String name) {
+  static bool _isShort(String name) {
     if (name.length < 4) {
       return true;
     }
     return false;
   }
 
-  bool containBadCharacters(String name) {
+  static bool _containBadCharacters(String name) {
     if (name.contains(' ')) {
       return true;
     }
@@ -23,7 +23,7 @@ class Filter {
     return true;
   }
 
-  bool tooLong(String name) {
+  static bool _tooLong(String name) {
     if (name.length > 16) {
       return true;
     }
@@ -31,17 +31,17 @@ class Filter {
   }
 
   /// returns empty string if check is operated fine, and error str if not
-  String operateCheck(text) {
-    if (isProfane(text)) {
+  static String operateCheck(text) {
+    if (_isProfane(text)) {
       return 'name contains profane words';
     }
-    if (isShort(text)) {
+    if (_isShort(text)) {
       return 'name is too short';
     }
-    if (containBadCharacters(text)) {
+    if (_containBadCharacters(text)) {
       return 'name contains bad letters';
     }
-    if (tooLong(text)) {
+    if (_tooLong(text)) {
       return 'name is too long';
     }
     return '';
