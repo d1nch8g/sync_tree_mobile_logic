@@ -102,31 +102,31 @@ lRklcGJo1HNFJVOzTVq8kcYiEWU3teU4pwIDAQAB
 -----END RSA PUBLIC KEY-----''';
 void main() {
   test('generate key band', () async {
-    var band = await generateKeys();
-    if (band.mesPriv.pem.length < 100 ||
-        band.mesPub.pem.length < 100 ||
-        band.persPriv.pem.length < 100 ||
-        band.persPub.pem.length < 100) {
+    var keys = Keys.generate();
+    if (keys.message.private.pem.length < 100 ||
+        keys.message.public.pem.length < 100 ||
+        keys.personal.private.pem.length < 100 ||
+        keys.personal.public.pem.length < 100) {
       fail('something is not generated correctly');
     }
   });
   test('private key from bytes test', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var priv = PrivateKey.fromBytes(bytes: band.mesPriv.bytes);
+    var priv = PrivateKey.fromBytes(bytes: band.message.private.bytes);
     if (priv.pem.length < 50) {
       fail('failed to convert bytes to private key');
     }
   });
   test('private key from pem', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var priv = PrivateKey.fromPEM(pem: band.mesPriv.pem);
+    var priv = PrivateKey.fromPEM(pem: band.message.private.pem);
     if (priv.bytes.length < 50) {
       fail('failed to convert pem string to private key');
     }
   });
   test('private key integer to bytes', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var bytes = band.persPriv.intToBytes(19237);
+    var bytes = band.personal.private.intToBytes(19237);
     if (bytes[0] != 37) {
       fail('failed to convert ineger value to bytes');
     }
@@ -134,7 +134,7 @@ void main() {
   test('private key sign data array', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
     var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
-    var sign = await band.persPriv.signData(bytes);
+    var sign = await band.personal.private.signData(bytes);
     if (sign.length != 512) {
       fail('sign length is wrong, something is bad ${sign.length}');
     }
@@ -144,7 +144,7 @@ void main() {
     var bytes = Uint8List.fromList([1, 2, 3, 4, 5]);
     var integer = 282;
     var string = 'alloha';
-    var byteSum = band.persPriv.transformListToByteArray([
+    var byteSum = band.personal.private.transformListToByteArray([
       bytes,
       integer,
       string,
@@ -159,7 +159,7 @@ void main() {
   test('private key sign data', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
     var bytesToSign = Uint8List.fromList([1, 2, 3, 4, 5, 6]);
-    var sign = await band.persPriv.signList([
+    var sign = await band.personal.private.signList([
       bytesToSign,
       bytesToSign,
       bytesToSign,
@@ -171,8 +171,8 @@ void main() {
   test('public encrypt, private decrypt', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
     var untouchedMessage = 'some text';
-    var encryptedMessage = await band.mesPub.encrypt(untouchedMessage);
-    var decryptedMessage = await band.mesPriv.decrypt(encryptedMessage);
+    var encryptedMessage = await band.message.public.encrypt(untouchedMessage);
+    var decryptedMessage = await band.message.private.decrypt(encryptedMessage);
     if (decryptedMessage != untouchedMessage ||
         encryptedMessage == untouchedMessage) {
       fail('some error in ecnryption/decryption module');
@@ -180,36 +180,35 @@ void main() {
   });
   test('public key from bytes', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var priv = PublicKey.fromBytes(bytes: band.mesPub.bytes);
+    var priv = PublicKey.fromBytes(bytes: band.message.public.bytes);
     if (priv.pem.length < 50) {
       fail('failed to convert bytes to public key');
     }
   });
   test('public key from pem', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var priv = PublicKey.fromPEM(pem: band.mesPub.pem);
+    var priv = PublicKey.fromPEM(pem: band.message.public.pem);
     if (priv.bytes.length < 50) {
       fail('failed to convert pem string to public key');
     }
   });
   test('public get hash adress bytes/base64', () async {
     var band = Keys.fromSingleString(multiKeyStirng: testKey);
-    var adressBase64 = band.persPub.getAdressBase64();
-    var adressBytes = band.persPub.getAdressBytes();
+    var adressBase64 = band.personal.public.getAdressBase64();
+    var adressBytes = band.personal.public.getAdressBytes();
     if (adressBytes.length < 50 || adressBase64.length < 50) {
       fail('key bytes converted to adress incorrectly');
     }
   });
   test('key band single string exort/import', () async {
-    var keyBand = await generateKeys();
-    var keyBandString = keyBand.allKeysString;
-    var keyBandFromString = Keys.fromSingleString(
-      multiKeyStirng: keyBandString,
+    var keys = Keys.generate();
+    var keysString = keys.allKeysString;
+    var keysAgain = Keys.fromSingleString(
+      multiKeyStirng: keysString,
     );
-    if (keyBand.mesPriv.toString() !=
-            keyBandFromString.mesPriv.toString() ||
-        keyBand.persPub.toString() !=
-            keyBand.persPub.toString()) {
+    if (keys.message.private.toString() !=
+            keysAgain.message.private.toString() ||
+        keys.personal.public.toString() != keys.personal.public.toString()) {
       fail('some error importing/exporting keys from/to single string line');
     }
   });
