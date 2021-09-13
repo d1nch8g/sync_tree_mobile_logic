@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:grpc/grpc.dart';
+import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
@@ -60,12 +62,13 @@ class MarketInfo {
 }
 
 class InfoCalls {
-  Future<bool> infoHasTrades(String marketAdress) async {
-    
+  static Future<bool> infoHasTrades(String marketAdress) async {
+    var keysStr = await Storage.loadKeys();
+    var keys = Keys.fromSingleString(multiKeyStirng: keysStr);
     final response = await stub.infoHasTrades(
       InfoHasTradesRequest(
-        userAdress: userAdress,
-        marketAdress: marketAdress,
+        userAdress: keys.persPub.getAdressBytes(),
+        marketAdress: base64.decode(marketAdress),
       ),
       options: CallOptions(
         timeout: Duration(milliseconds: 2584),
