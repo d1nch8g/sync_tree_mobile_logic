@@ -7,45 +7,44 @@ import 'package:pointycastle/key_generators/rsa_key_generator.dart';
 import 'package:pointycastle/pointycastle.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
+import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
-//TODO add abstraction of keypair and add it as a layer between keys and 2 pairs
-
-List<String> generateKeyPEMpair(int bitLength) {
-  final secureRandom = FortunaRandom();
-  final seedSource = Random.secure();
-  final seeds = <int>[];
-  for (var i = 0; i < 32; i++) {
-    seeds.add(seedSource.nextInt(255));
-  }
-  secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-  final keyGen = RSAKeyGenerator()
-    ..init(
-      ParametersWithRandom(
-        RSAKeyGeneratorParameters(
-          BigInt.parse('65537'),
-          bitLength,
-          64,
+class KeyPair {
+  late final PrivateKey private;
+  late final PublicKey public;
+  KeyPair({
+    required PrivateKey private,
+    required PublicKey public,
+  });
+  KeyPair.generate(int bitLength) {
+    final secureRandom = FortunaRandom();
+    final seedSource = Random.secure();
+    final seeds = <int>[];
+    for (var i = 0; i < 32; i++) {
+      seeds.add(seedSource.nextInt(255));
+    }
+    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
+    final keyGen = RSAKeyGenerator()
+      ..init(
+        ParametersWithRandom(
+          RSAKeyGeneratorParameters(
+            BigInt.parse('65537'),
+            bitLength,
+            64,
+          ),
+          secureRandom,
         ),
-        secureRandom,
-      ),
+      );
+    final pair = keyGen.generateKeyPair();
+    final myPublic = pair.publicKey as RSAPublicKey;
+    final myPrivate = pair.privateKey as RSAPrivateKey;
+    this.private = PrivateKey.fromPEM(
+      pem: CryptoUtils.encodeRSAPrivateKeyToPemPkcs1(myPrivate),
     );
-  final pair = keyGen.generateKeyPair();
-  final myPublic = pair.publicKey as RSAPublicKey;
-  final myPrivate = pair.privateKey as RSAPrivateKey;
-  var priv = CryptoUtils.encodeRSAPrivateKeyToPemPkcs1(myPrivate);
-  var pub = CryptoUtils.encodeRSAPublicKeyToPemPkcs1(myPublic);
-  return [priv, pub];
-}
-
-Future<Keys> generateKeys() async {
-  var persKeyPEMpair = await compute(generateKeyPEMpair, 4096);
-  var mesKeyPEMpair = await compute(generateKeyPEMpair, 2048);
-  return Keys.fromKeys(
-    personalPrivate: PrivateKey.fromPEM(pem: persKeyPEMpair[0]),
-    personalPublic: PublicKey.fromPEM(pem: persKeyPEMpair[1]),
-    messagePrivate: PrivateKey.fromPEM(pem: mesKeyPEMpair[0]),
-    messagePublic: PublicKey.fromPEM(pem: mesKeyPEMpair[1]),
-  );
+    this.public = PublicKey.fromPEM(
+      pem: CryptoUtils.encodeRSAPublicKeyToPemPkcs1(myPublic),
+    );
+  }
 }
 
 class PrivateKey {
@@ -151,8 +150,7 @@ class PublicKey {
 
 class Keys {
   late String allKeysString;
-  late PrivateKey persPriv, mesPriv;
-  late PublicKey persPub, mesPub;
+  late KeyPair personal, message;
 
   Keys.fromSingleString({
     required String multiKeyStirng,
@@ -163,10 +161,14 @@ class Keys {
         'Impossible to from keys from a string with wrong length',
       );
     }
-    this.persPriv = PrivateKey.fromPEM(pem: keysListToCheck[0]);
-    this.persPub = PublicKey.fromPEM(pem: keysListToCheck[1]);
-    this.mesPriv = PrivateKey.fromPEM(pem: keysListToCheck[2]);
-    this.mesPub = PublicKey.fromPEM(pem: keysListToCheck[3]);
+    this.personal = KeyPair(
+      private: PrivateKey.fromPEM(pem: keysListToCheck[0]),
+      public: PublicKey.fromPEM(pem: keysListToCheck[1]),
+    );
+    this.message = KeyPair(
+      private: PrivateKey.fromPEM(pem: keysListToCheck[2]),
+      public: PublicKey.fromPEM(pem: keysListToCheck[3]),
+    );
   }
 
   Keys.fromKeys({
@@ -175,15 +177,25 @@ class Keys {
     required PrivateKey messagePrivate,
     required PublicKey messagePublic,
   }) {
-    this.persPriv = personalPrivate;
-    this.persPub = personalPublic;
-    this.mesPriv = messagePrivate;
-    this.mesPub = messagePublic;
+    this.personal = KeyPair(
+      private: personalPrivate,
+      public: personalPublic,
+    );
+    this.message = KeyPair(
+      private: messagePrivate,
+      public: messagePublic,
+    );
     this.allKeysString = [
       personalPrivate.pem,
       personalPublic.pem,
       messagePrivate.pem,
       messagePublic.pem,
     ].join('|');
+  }
+
+  /// highly reccomend to wrap this method in async function, cuz its long
+  Keys.generate() {
+    var personal = KeyPair.generate(4096);
+    var message = KeyPair.generate(2048);
   }
 }
