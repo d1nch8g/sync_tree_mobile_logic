@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
@@ -58,5 +56,41 @@ void main() {
         fail('trigger should have been triggered');
       }
     });
+  });
+  test('deposit call', () async {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userCalls = UserCalls();
+    var deposit = await userCalls.deposit(testMarketAdress, 100);
+    if (deposit == false) {
+      fail('deposit request should return true');
+    }
+  });
+  test('withdrawal call', () async {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userCalls = UserCalls();
+    var deposit = await userCalls.withdrawal(testMarketAdress, 100);
+    if (deposit == false) {
+      fail('withdrawal request should return true');
+    }
+  });
+  test('send message call', () async {
+    SharedPreferences.setMockInitialValues({
+      'keys': alcoholKeys,
+      'publicName': 'Alcohol',
+      'balance': 10,
+    });
+    var userCalls = UserCalls();
+    var sent = await userCalls.sendMessage(testMarketAdress, 'hola');
+    if (sent != true) {
+      fail('the message is not delivered');
+    }
   });
 }

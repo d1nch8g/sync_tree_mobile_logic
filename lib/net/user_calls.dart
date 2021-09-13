@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
