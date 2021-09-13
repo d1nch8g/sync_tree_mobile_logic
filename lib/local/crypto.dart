@@ -2,19 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:pointycastle/key_generators/rsa_key_generator.dart';
 import 'package:pointycastle/pointycastle.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
-import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
 class KeyPair {
   late final PrivateKey private;
   late final PublicKey public;
   KeyPair({
-    required PrivateKey private,
-    required PublicKey public,
+    required this.private,
+    required this.public,
   });
   KeyPair.generate(int bitLength) {
     final secureRandom = FortunaRandom();
@@ -195,7 +193,13 @@ class Keys {
 
   /// highly reccomend to wrap this method in async function, cuz its long
   Keys.generate() {
-    var personal = KeyPair.generate(4096);
-    var message = KeyPair.generate(2048);
+    this.personal = KeyPair.generate(4096);
+    this.message = KeyPair.generate(2048);
+    this.allKeysString = [
+      this.personal.private.pem,
+      this.personal.public.pem,
+      this.message.private.pem,
+      this.message.public.pem,
+    ].join('|');
   }
 }
