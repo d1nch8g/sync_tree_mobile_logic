@@ -29,11 +29,13 @@ void main() {
     var valueChanger = () {
       valueToBeChanged = 2;
     };
-    createTriggerSubscription(
+    Storage().createTriggerSubscription(
       trigger: StorageEventTrigger.mainBalanceUpdate,
       onTriggerEvent: valueChanger,
     );
-    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
+    Storage().triggerStorageEvent(
+      trigger: StorageEventTrigger.mainBalanceUpdate,
+    );
     Future.delayed(Duration(seconds: 1), () {
       if (valueToBeChanged != 2) {
         fail('the value that needs to be changed is the same');
