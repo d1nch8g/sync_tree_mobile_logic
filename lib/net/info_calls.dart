@@ -59,20 +59,20 @@ class MarketInfo {
   }
 }
 
-Future<bool> infoHasTrades(
-  Uint8List userAdress,
-  Uint8List marketAdress,
-) async {
-  final response = await stub.infoHasTrades(
-    InfoHasTradesRequest(
-      userAdress: userAdress,
-      marketAdress: marketAdress,
-    ),
-    options: CallOptions(
-      timeout: Duration(milliseconds: 2584),
-    ),
-  );
-  return response.passed;
+class InfoCalls {
+  Future<bool> infoHasTrades(String marketAdress) async {
+    
+    final response = await stub.infoHasTrades(
+      InfoHasTradesRequest(
+        userAdress: userAdress,
+        marketAdress: marketAdress,
+      ),
+      options: CallOptions(
+        timeout: Duration(milliseconds: 2584),
+      ),
+    );
+    return response.passed;
+  }
 }
 
 Future<MarketInfo> infoMarket(Uint8List marketAdress) async {

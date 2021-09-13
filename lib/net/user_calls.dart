@@ -7,10 +7,7 @@ import 'api.pbgrpc.dart';
 import 'api.dart';
 
 class UserCalls {
-  late Storage storage;
-  UserCalls() {
-    storage = Storage();
-  }
+  final Storage storage = Storage();
 
   Future<bool> create() async {
     var keysString = await storage.loadKeys();
