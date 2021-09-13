@@ -38,69 +38,73 @@ class UserNetCalls {
     });
     return response.passed;
   }
-}
 
-Future<bool> userUpdate() async {
-  var storageKey = await loadValue(StorageKey.keys);
-  var publicName = await loadValue(StorageKey.publicName);
-  var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
-  var sign = await keys.persPriv.signList([
-    keys.persPub.bytes,
-    keys.mesPub.bytes,
-    publicName,
-  ]);
-  final response = await stub.userUpdate(
-    UserUpdateRequest(
-      publicKey: keys.persPub.bytes,
-      messsageKey: keys.mesPub.bytes,
-      publicName: publicName,
-      sign: sign,
-    ),
-  );
-
-  return response.passed;
-}
-
-Future<bool> userSend(int amount, String recieverAdress) async {
-  var keysString = await loadValue(StorageKey.keys);
-  var keys = Keys.fromSingleString(multiKeyStirng: keysString);
-  var adressBytes = base64.decode(recieverAdress);
-  var sign = await keys.persPriv.signList([
-    keys.persPub.bytes,
-    Int64(amount),
-    adressBytes,
-  ]);
-  final response = await stub.userSend(
-    UserSendRequest(
-      publicKey: keys.persPub.bytes,
-      sendAmount: Int64(amount),
-      recieverAdress: adressBytes,
-      sign: sign,
-    ),
-  );
-  if (response.passed) {
-    var curBalance = int.parse(await loadValue(StorageKey.mainBalance));
-    saveValue(StorageKey.mainBalance, (curBalance - amount).toString());
-    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
+  Future<bool> updateName(String name) async {
+    var storageKey = await storage.loadKeys();
+    var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      keys.mesPub.bytes,
+      name,
+    ]);
+    final response = await stub.userUpdate(
+      UserUpdateRequest(
+        publicKey: keys.persPub.bytes,
+        messsageKey: keys.mesPub.bytes,
+        publicName: name,
+        sign: sign,
+      ),
+    );
+    if (response.passed) {
+      storage.savePublicName(name);
+      return true;
+    }
+    return false;
   }
-  return response.passed;
-}
 
-Future<bool> userDeposit(
-  Uint8List publicKey,
-  Uint8List marketAdress,
-  int amount,
-  Uint8List sign,
-) async {
-  final response = await stub.userDeposit(
-    UserDepositRequest(
-      publicKey: publicKey,
-      marketAdress: marketAdress,
-      amount: Int64(amount),
-      sign: sign,
-    ),
-  );
-  return response.passed;
+  Future<bool> userSend(int amount, String recieverAdress) async {
+    var keysString = await storage.loadKeys();
+    var keys = Keys.fromSingleString(multiKeyStirng: keysString);
+    var adressBytes = base64.decode(recieverAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      Int64(amount),
+      adressBytes,
+    ]);
+    final response = await stub.userSend(
+      UserSendRequest(
+        publicKey: keys.persPub.bytes,
+        sendAmount: Int64(amount),
+        recieverAdress: adressBytes,
+        sign: sign,
+      ),
+    );
+    if (response.passed) {
+      var curBalance = await storage.loadMainBalance();
+      storage.saveMainBalance(curBalance - amount);
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> userDeposit(String marketAdress, int amount) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+      Int64(amount),
+    ]);
+    final response = await stub.userDeposit(
+      UserDepositRequest(
+        publicKey: keys.persPub.bytes,
+        marketAdress: bytesMarketAdress,
+        amount: Int64(amount),
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
 }
 
 Future<bool> userWithdrawal(
