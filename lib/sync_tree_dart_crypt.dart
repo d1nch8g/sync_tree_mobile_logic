@@ -1,8 +1,7 @@
 library sync_tree_dart_crypt;
 
-export 'local/data.dart';
+export 'local/storage.dart';
 export 'local/crypto.dart';
-export "local/stream.dart";
 export "local/filter.dart";
 export 'local/crypto.dart';
 export "net/api.pbenum.dart";

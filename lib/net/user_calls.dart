@@ -8,7 +8,7 @@ import 'api.pbgrpc.dart';
 import 'api.dart';
 
 Future<bool> userCreate() async {
-  var storageKey = await loadValue(StorageKey.keys);
+  var storageKeys = await Storage().loadKeys();
   var publicName = await loadValue(StorageKey.publicName);
   var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
   var sign = await keys.persPriv.signList([
@@ -74,7 +74,7 @@ Future<bool> userSend(int amount, String recieverAdress) async {
   if (response.passed) {
     var curBalance = int.parse(await loadValue(StorageKey.mainBalance));
     saveValue(StorageKey.mainBalance, (curBalance - amount).toString());
-    triggerEvent(trigger: Trigger.mainBalanceUpdate);
+    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
   }
   return response.passed;
 }

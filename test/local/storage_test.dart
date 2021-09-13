@@ -5,15 +5,39 @@ import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 void main() {
   test('storage save value', () async {
     SharedPreferences.setMockInitialValues({});
-    saveValue(StorageKey.connectedWallets, 'value');
+    var storage = Storage();
+    storage.savePassword('abcdefg');
   });
   test('storage load value', () async {
     SharedPreferences.setMockInitialValues({
-      'connectedWallets': 'value',
+      'password': 'abcdefg',
     });
-    var loaded = await loadValue(StorageKey.connectedWallets);
-    if (loaded != 'value') {
+    var storage = Storage();
+    var loaded = await storage.loadPassword();
+    if (loaded != 'abcdefg') {
       fail('value loaded from prefs is not matching');
     }
+  });
+  test('stream trigger event', () {
+    var storage = Storage();
+    storage.triggerStorageEvent(
+      trigger: StorageEventTrigger.mainBalanceUpdate,
+    );
+  });
+  test('stream function triggering test', () async {
+    var valueToBeChanged = 1;
+    var valueChanger = () {
+      valueToBeChanged = 2;
+    };
+    createTriggerSubscription(
+      trigger: StorageEventTrigger.mainBalanceUpdate,
+      onTriggerEvent: valueChanger,
+    );
+    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
+    Future.delayed(Duration(seconds: 1), () {
+      if (valueToBeChanged != 2) {
+        fail('the value that needs to be changed is the same');
+      }
+    });
   });
 }

@@ -2,40 +2,14 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum Keys {
-  keys,
-  password,
-  mainBalance,
-  connectedWallets,
-  searchCache,
-  publicName,
-}
+var storageStreamController = StreamController<StorageEventTrigger>.broadcast();
+var storageStream = storageStreamController.stream;
 
-var mainStreamController = StreamController<Trigger>.broadcast();
-var mainStream = mainStreamController.stream;
-
-enum Trigger {
+enum StorageEventTrigger {
   publicNameUpdate,
   mainBalanceUpdate,
   marketBalanceUpdate,
   marketMessagesUpdate,
-}
-
-void triggerEvent({
-  required Trigger trigger,
-}) {
-  mainStreamController.add(trigger);
-}
-
-createTriggerSubscription({
-  required Trigger trigger,
-  required Function onTriggerEvent,
-}) {
-  mainStream.listen((event) {
-    if (trigger == event) {
-      onTriggerEvent();
-    }
-  });
 }
 
 class Storage {
@@ -66,7 +40,7 @@ class Storage {
   void saveMainBalance(int balance) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setInt('balance', balance);
-    triggerEvent(trigger: Trigger.mainBalanceUpdate);
+    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
   }
 
   Future<int> loadMainBalance() async {
@@ -87,7 +61,7 @@ class Storage {
   void saveMarketBalanceByAdress(String adress, int balance) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setInt(adress, balance);
-    triggerEvent(trigger: Trigger.marketBalanceUpdate);
+    triggerStorageEvent(trigger: StorageEventTrigger.marketBalanceUpdate);
   }
 
   Future<int> loadMarketBalance(String adress) async {
@@ -98,7 +72,7 @@ class Storage {
   void savePublicName(String name) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name);
-    triggerEvent(trigger: Trigger.publicNameUpdate);
+    triggerStorageEvent(trigger: StorageEventTrigger.publicNameUpdate);
   }
 
   Future<String> loadPublicName() async {
@@ -114,5 +88,22 @@ class Storage {
   Future<String> loadSeachCache(String cache) async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.getString('cache') ?? '';
+  }
+
+  void triggerStorageEvent({
+    required StorageEventTrigger trigger,
+  }) {
+    storageStreamController.add(trigger);
+  }
+
+  createTriggerSubscription({
+    required StorageEventTrigger trigger,
+    required Function onTriggerEvent,
+  }) {
+    storageStream.listen((event) {
+      if (trigger == event) {
+        onTriggerEvent();
+      }
+    });
   }
 }
