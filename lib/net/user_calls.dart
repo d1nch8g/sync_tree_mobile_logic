@@ -7,11 +7,9 @@ import 'api.pbgrpc.dart';
 import 'api.dart';
 
 class UserCalls {
-  final Storage storage = Storage();
-
   Future<bool> create() async {
-    var keysString = await storage.loadKeys();
-    var publicName = await storage.loadPublicName();
+    var keysString = await Storage.loadKeys();
+    var publicName = await Storage.loadPublicName();
     var keys = Keys.fromSingleString(multiKeyStirng: keysString);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -36,7 +34,7 @@ class UserCalls {
   }
 
   Future<bool> updateName(String name) async {
-    var storageKey = await storage.loadKeys();
+    var storageKey = await Storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -52,14 +50,14 @@ class UserCalls {
       ),
     );
     if (response.passed) {
-      storage.savePublicName(name);
+      Storage.savePublicName(name);
       return true;
     }
     return false;
   }
 
   Future<bool> sendMain(int amount, String recieverAdress) async {
-    var keysString = await storage.loadKeys();
+    var keysString = await Storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: keysString);
     var adressBytes = base64.decode(recieverAdress);
     var sign = await keys.persPriv.signList([
@@ -76,15 +74,15 @@ class UserCalls {
       ),
     );
     if (response.passed) {
-      var curBalance = await storage.loadMainBalance();
-      storage.saveMainBalance(curBalance - amount);
+      var curBalance = await Storage.loadMainBalance();
+      Storage.saveMainBalance(curBalance - amount);
       return true;
     }
     return false;
   }
 
   Future<bool> deposit(String marketAdress, int amount) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -103,7 +101,7 @@ class UserCalls {
   }
 
   Future<bool> withdrawal(String marketAdress, int amount) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -122,7 +120,7 @@ class UserCalls {
   }
 
   Future<bool> sendMessage(String marketAdress, String message) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -141,7 +139,7 @@ class UserCalls {
   }
 
   Future<bool> buy(String marketAdress, int recieve, int offer) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -162,7 +160,7 @@ class UserCalls {
   }
 
   Future<bool> sell(String marketAdress, int recieve, int offer) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
@@ -183,7 +181,7 @@ class UserCalls {
   }
 
   Future<bool> cancelTrade(String marketAdress) async {
-    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
