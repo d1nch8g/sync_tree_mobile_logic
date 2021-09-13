@@ -38,6 +38,14 @@ void main() {
     });
     var userCalls = UserCalls();
     var nicoKeys = Keys.fromSingleString(multiKeyStirng: nicotinKeys);
+    var triggerWasTriggered = false;
+    Function trigger = () {
+      triggerWasTriggered = true;
+    };
+    Storage().createTriggerSubscription(
+      trigger: Trigger.mainBalanceUpdate,
+      onTriggerEvent: trigger,
+    );
     var sent = await userCalls.sendMain(
       1,
       nicoKeys.persPub.getAdressBase64(),
@@ -45,5 +53,10 @@ void main() {
     if (sent != true) {
       fail('this transaction should go well');
     }
+    Future.delayed(Duration(seconds: 1), () {
+      if (triggerWasTriggered == false) {
+        fail('trigger should have been triggered');
+      }
+    });
   });
 }

@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-var storageStreamController = StreamController<StorageEventTrigger>.broadcast();
+var storageStreamController = StreamController<Trigger>.broadcast();
 var storageStream = storageStreamController.stream;
 
-enum StorageEventTrigger {
+enum Trigger {
   publicNameUpdate,
   mainBalanceUpdate,
   marketBalanceUpdate,
@@ -40,7 +40,7 @@ class Storage {
   void saveMainBalance(int balance) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setInt('balance', balance);
-    triggerStorageEvent(trigger: StorageEventTrigger.mainBalanceUpdate);
+    triggerStorageEvent(trigger: Trigger.mainBalanceUpdate);
   }
 
   Future<int> loadMainBalance() async {
@@ -61,7 +61,7 @@ class Storage {
   void saveMarketBalanceByAdress(String adress, int balance) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setInt(adress, balance);
-    triggerStorageEvent(trigger: StorageEventTrigger.marketBalanceUpdate);
+    triggerStorageEvent(trigger: Trigger.marketBalanceUpdate);
   }
 
   Future<int> loadMarketBalance(String adress) async {
@@ -72,7 +72,7 @@ class Storage {
   void savePublicName(String name) async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name);
-    triggerStorageEvent(trigger: StorageEventTrigger.publicNameUpdate);
+    triggerStorageEvent(trigger: Trigger.publicNameUpdate);
   }
 
   Future<String> loadPublicName() async {
@@ -91,13 +91,13 @@ class Storage {
   }
 
   void triggerStorageEvent({
-    required StorageEventTrigger trigger,
+    required Trigger trigger,
   }) {
     storageStreamController.add(trigger);
   }
 
   createTriggerSubscription({
-    required StorageEventTrigger trigger,
+    required Trigger trigger,
     required Function onTriggerEvent,
   }) {
     storageStream.listen((event) {

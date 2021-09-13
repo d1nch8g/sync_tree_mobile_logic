@@ -21,7 +21,7 @@ void main() {
   test('stream trigger event', () {
     var storage = Storage();
     storage.triggerStorageEvent(
-      trigger: StorageEventTrigger.mainBalanceUpdate,
+      trigger: Trigger.mainBalanceUpdate,
     );
   });
   test('stream function triggering test', () async {
@@ -30,11 +30,11 @@ void main() {
       valueToBeChanged = 2;
     };
     Storage().createTriggerSubscription(
-      trigger: StorageEventTrigger.mainBalanceUpdate,
+      trigger: Trigger.mainBalanceUpdate,
       onTriggerEvent: valueChanger,
     );
     Storage().triggerStorageEvent(
-      trigger: StorageEventTrigger.mainBalanceUpdate,
+      trigger: Trigger.mainBalanceUpdate,
     );
     Future.delayed(Duration(seconds: 1), () {
       if (valueToBeChanged != 2) {
