@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sync_tree_mobile_logic/sync_tree_modile_logic.dart';
 
-import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 
 final testKey = '''-----BEGIN RSA PRIVATE KEY-----
 MIIJKAIBAAKCAgEAhUXHmg6f7DdeYeqjEczFq7TzDSJvWFeZ0AppJC9UXAa6ZC/q

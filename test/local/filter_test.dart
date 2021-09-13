@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
+import 'package:sync_tree_mobile_logic/sync_tree_modile_logic.dart';
+
 
 void main() {
   test('filter profanity check', () {

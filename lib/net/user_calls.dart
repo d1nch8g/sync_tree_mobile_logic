@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
+import 'package:sync_tree_mobile_logic/local/crypto.dart';
+import 'package:sync_tree_mobile_logic/local/storage.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
