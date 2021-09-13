@@ -7,9 +7,9 @@ import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
 
-class UserNetCalls {
+class UserCalls {
   late Storage storage;
-  UserNetCalls() {
+  UserCalls() {
     storage = Storage();
   }
 
@@ -62,7 +62,7 @@ class UserNetCalls {
     return false;
   }
 
-  Future<bool> userSend(int amount, String recieverAdress) async {
+  Future<bool> sendMain(int amount, String recieverAdress) async {
     var keysString = await storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: keysString);
     var adressBytes = base64.decode(recieverAdress);
@@ -87,7 +87,7 @@ class UserNetCalls {
     return false;
   }
 
-  Future<bool> userDeposit(String marketAdress, int amount) async {
+  Future<bool> deposit(String marketAdress, int amount) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -105,23 +105,27 @@ class UserNetCalls {
     );
     return response.passed;
   }
-}
 
-Future<bool> userWithdrawal(
-  Uint8List publicKey,
-  Uint8List marketAdress,
-  int amount,
-  Uint8List sign,
-) async {
-  final response = await stub.userWithdrawal(
-    UserWithdrawalRequest(
-      publicKey: publicKey,
-      marketAdress: marketAdress,
-      amount: Int64(amount),
-      sign: sign,
-    ),
-  );
-  return response.passed;
+  Future<bool> withdrawal(String marketAdress, int amount) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+      Int64(amount),
+    ]);
+    final response = await stub.userWithdrawal(
+      UserWithdrawalRequest(
+        publicKey: keys.persPub.bytes,
+        marketAdress: bytesMarketAdress,
+        amount: Int64(amount),
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
+
+
 }
 
 Future<bool> userSendMessage(
