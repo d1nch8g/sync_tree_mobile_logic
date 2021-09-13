@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:grpc/grpc.dart';
 import 'package:sync_tree_dart_crypt/sync_tree_dart_crypt.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
@@ -89,7 +88,7 @@ class InfoCalls {
     var keys = Keys.fromSingleString(multiKeyStirng: keysStr);
     final response = await stub.infoHasTrades(
       InfoHasTradesRequest(
-        userAdress: keys.persPub.getAdressBytes(),
+        userAdress: keys.personal.public.getAdressBytes(),
         marketAdress: base64.decode(marketAdress),
       ),
     );
@@ -139,7 +138,7 @@ class InfoCalls {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     final response = await stub.infoUser(
       InfoUserRequest(
-        adress: keys.persPub.getAdressBytes(),
+        adress: keys.personal.public.getAdressBytes(),
       ),
     );
     List<MarketBalance> balances = [];
@@ -163,7 +162,7 @@ class InfoCalls {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     final response = await stub.infoMessages(
       InfoMessagesRequest(
-        userAdress: keys.persPub.getAdressBytes(),
+        userAdress: keys.personal.public.getAdressBytes(),
         marketAdress: marketAdress,
       ),
     );
