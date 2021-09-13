@@ -9,7 +9,7 @@ import 'api.dart';
 
 class UserNetCalls {
   late Storage storage;
-  UserCalls() {
+  UserNetCalls() {
     storage = Storage();
   }
 
