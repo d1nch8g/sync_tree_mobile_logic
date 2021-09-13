@@ -135,11 +135,10 @@ class InfoCalls {
     return markets;
   }
 
-  static Future<UserInfo> selfInfo() async {
-    var keys = await Storage.loadKeys();
+  static Future<UserInfo> userInfo(String adress) async {
     final response = await stub.infoUser(
       InfoUserRequest(
-        adress: keys.personal.public.getAdressBytes(),
+        adress: base64.decode(adress),
       ),
     );
     List<MarketBalance> balances = [];

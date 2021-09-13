@@ -33,12 +33,7 @@ void main() {
     }
   });
   test('info user', () async {
-    SharedPreferences.setMockInitialValues({
-      'keys': alcoholKeys,
-      'publicName': 'Alcohol',
-      'balance': 10,
-    });
-    var userInfo = await InfoCalls.selfInfo();
+    var userInfo = await InfoCalls.userInfo(testAlcoholAdress);
     if (userInfo.name != 'Alcohol') {
       fail('user name should be equal to Alcohol');
     }
