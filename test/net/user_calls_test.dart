@@ -6,9 +6,9 @@ import 'test_data.dart';
 
 void main() {
   test('user create call', () async {
-    var newKeys = await generateKeys();
+    var keys = Keys.generate();
     SharedPreferences.setMockInitialValues({
-      'keys': newKeys.allKeysString,
+      'keys': keys.allKeysString,
       'publicName': 'holac',
     });
     var created = await UserCalls.create();
@@ -43,7 +43,7 @@ void main() {
     );
     var operated = await UserCalls.sendMain(
       1,
-      nicoKeys.persPub.getAdressBase64(),
+      nicoKeys.personal.public.getAdressBase64(),
     );
     if (operated != true) {
       fail('this transaction should go well');
