@@ -165,17 +165,19 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> sell(
-    Uint8List publicKey,
-    Uint8List adress,
-    int recieve,
-    int offer,
-    Uint8List sign,
-  ) async {
+  Future<bool> sell(String marketAdress, int recieve, int offer) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+      recieve,
+      offer,
+    ]);
     final response = await stub.userSell(
       UserSellRequest(
-        publicKey: publicKey,
-        adress: adress,
+        publicKey: keys.persPub.bytes,
+        adress: bytesMarketAdress,
         recieve: Int64(recieve),
         offer: Int64(offer),
         sign: sign,
@@ -183,19 +185,21 @@ class UserCalls {
     );
     return response.passed;
   }
-}
 
-Future<bool> userCancelTrade(
-  Uint8List publicKey,
-  Uint8List marketAdress,
-  Uint8List sign,
-) async {
-  final response = await stub.userCancelTrade(
-    UserCancelTradeRequest(
-      publicKey: publicKey,
-      marketAdress: marketAdress,
-      sign: sign,
-    ),
-  );
-  return response.passed;
+  Future<bool> cancelTrade(String marketAdress) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+    ]);
+    final response = await stub.userCancelTrade(
+      UserCancelTradeRequest(
+        publicKey: keys.persPub.bytes,
+        marketAdress: bytesMarketAdress,
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
 }

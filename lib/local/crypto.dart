@@ -99,6 +99,7 @@ class PrivateKey {
     return Uint8List.fromList(byteArray);
   }
 
+  /// supported types: [String], [int], [Uint8List]
   Future<Uint8List> signList(List<dynamic> values) async {
     var bytes = transformListToByteArray(values);
     return await signData(bytes);
