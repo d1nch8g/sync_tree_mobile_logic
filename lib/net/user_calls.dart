@@ -68,7 +68,7 @@ class UserCalls {
     var adressBytes = base64.decode(recieverAdress);
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
-      Int64(amount),
+      amount,
       adressBytes,
     ]);
     final response = await stub.userSend(
@@ -93,7 +93,7 @@ class UserCalls {
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
       bytesMarketAdress,
-      Int64(amount),
+      amount,
     ]);
     final response = await stub.userDeposit(
       UserDepositRequest(
@@ -112,7 +112,7 @@ class UserCalls {
     var sign = await keys.persPriv.signList([
       keys.persPub.bytes,
       bytesMarketAdress,
-      Int64(amount),
+      amount,
     ]);
     final response = await stub.userWithdrawal(
       UserWithdrawalRequest(
@@ -125,24 +125,24 @@ class UserCalls {
     return response.passed;
   }
 
-
-}
-
-Future<bool> userSendMessage(
-  Uint8List publicKey,
-  Uint8List marketAdress,
-  String message,
-  Uint8List sign,
-) async {
-  final response = await stub.userSendMessage(
-    UserSendMessageRequest(
-      publicKey: publicKey,
-      adress: marketAdress,
-      message: message,
-      sign: sign,
-    ),
-  );
-  return response.passed;
+  Future<bool> sendMessage(String marketAdress, String message) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await storage.loadKeys());
+    var bytesMarketAdress = base64.decode(marketAdress);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      bytesMarketAdress,
+      message,
+    ]);
+    final response = await stub.userSendMessage(
+      UserSendMessageRequest(
+        publicKey: keys.persPub.bytes,
+        adress: bytesMarketAdress,
+        message: message,
+        sign: sign,
+      ),
+    );
+    return response.passed;
+  }
 }
 
 Future<bool> userBuy(
