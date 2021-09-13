@@ -8,6 +8,8 @@ import 'package:pointycastle/pointycastle.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:pointycastle/random/fortuna_random.dart';
 
+//TODO add abstraction of keypair and add it as a layer between keys and 2 pairs
+
 List<String> generateKeyPEMpair(int bitLength) {
   final secureRandom = FortunaRandom();
   final seedSource = Random.secure();
