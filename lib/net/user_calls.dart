@@ -7,7 +7,7 @@ import 'api.pbgrpc.dart';
 import 'api.dart';
 
 class UserCalls {
-  Future<bool> create() async {
+  static Future<bool> create() async {
     var keysString = await Storage.loadKeys();
     var publicName = await Storage.loadPublicName();
     var keys = Keys.fromSingleString(multiKeyStirng: keysString);
@@ -33,7 +33,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> updateName(String name) async {
+  static Future<bool> updateName(String name) async {
     var storageKey = await Storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
     var sign = await keys.persPriv.signList([
@@ -56,7 +56,7 @@ class UserCalls {
     return false;
   }
 
-  Future<bool> sendMain(int amount, String recieverAdress) async {
+  static Future<bool> sendMain(int amount, String recieverAdress) async {
     var keysString = await Storage.loadKeys();
     var keys = Keys.fromSingleString(multiKeyStirng: keysString);
     var adressBytes = base64.decode(recieverAdress);
@@ -81,7 +81,7 @@ class UserCalls {
     return false;
   }
 
-  Future<bool> deposit(String marketAdress, int amount) async {
+  static Future<bool> deposit(String marketAdress, int amount) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -100,7 +100,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> withdrawal(String marketAdress, int amount) async {
+  static Future<bool> withdrawal(String marketAdress, int amount) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -119,7 +119,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> sendMessage(String marketAdress, String message) async {
+  static Future<bool> sendMessage(String marketAdress, String message) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -138,7 +138,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> buy(String marketAdress, int recieve, int offer) async {
+  static Future<bool> buy(String marketAdress, int recieve, int offer) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -159,7 +159,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> sell(String marketAdress, int recieve, int offer) async {
+  static Future<bool> sell(String marketAdress, int recieve, int offer) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
@@ -180,7 +180,7 @@ class UserCalls {
     return response.passed;
   }
 
-  Future<bool> cancelTrade(String marketAdress) async {
+  static Future<bool> cancelTrade(String marketAdress) async {
     var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     var bytesMarketAdress = base64.decode(marketAdress);
     var sign = await keys.persPriv.signList([
