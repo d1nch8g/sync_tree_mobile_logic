@@ -7,30 +7,37 @@ import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
 
-Future<bool> userCreate() async {
-  var storageKeys = await Storage().loadKeys();
-  var publicName = await loadValue(StorageKey.publicName);
-  var keys = Keys.fromSingleString(multiKeyStirng: storageKey);
-  var sign = await keys.persPriv.signList([
-    keys.persPub.bytes,
-    keys.mesPub.bytes,
-    publicName,
-  ]);
-  final response = await stub
-      .userCreate(
-    UserCreateRequest(
-      publicKey: keys.persPub.bytes,
-      messsageKey: keys.mesPub.bytes,
-      publicName: publicName,
-      sign: sign,
-    ),
-  )
-      .onError((error, stackTrace) {
-    print(error);
-    print(stackTrace);
-    return Response(passed: false);
-  });
-  return response.passed;
+class UserNetCalls {
+  late Storage storage;
+  UserCalls() {
+    storage = Storage();
+  }
+
+  Future<bool> create() async {
+    var keysString = await storage.loadKeys();
+    var publicName = await storage.loadPublicName();
+    var keys = Keys.fromSingleString(multiKeyStirng: keysString);
+    var sign = await keys.persPriv.signList([
+      keys.persPub.bytes,
+      keys.mesPub.bytes,
+      publicName,
+    ]);
+    final response = await stub
+        .userCreate(
+      UserCreateRequest(
+        publicKey: keys.persPub.bytes,
+        messsageKey: keys.mesPub.bytes,
+        publicName: publicName,
+        sign: sign,
+      ),
+    )
+        .onError((error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      return Response(passed: false);
+    });
+    return response.passed;
+  }
 }
 
 Future<bool> userUpdate() async {
