@@ -7,6 +7,28 @@ import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
 
+class MarketBalance {
+  Uint8List adress;
+  int balance;
+  MarketBalance(
+    this.adress,
+    this.balance,
+  );
+}
+
+class UserInfo {
+  String name;
+  int balance;
+  Uint8List mesKey;
+  List<MarketBalance> marketBalances;
+  UserInfo(
+    this.name,
+    this.balance,
+    this.mesKey,
+    this.marketBalances,
+  );
+}
+
 class SingleTrade {
   int offer;
   int recieve;
@@ -137,38 +159,14 @@ class InfoCalls {
     );
   }
 
-  Future<List<String>> infoMessages(
-    Uint8List userAdress,
-    Uint8List marketAdress,
-  ) async {
+  Future<List<String>> infoMessages(Uint8List marketAdress) async {
+    var keys = Keys.fromSingleString(multiKeyStirng: await Storage.loadKeys());
     final response = await stub.infoMessages(
       InfoMessagesRequest(
-        userAdress: userAdress,
+        userAdress: keys.persPub.getAdressBytes(),
         marketAdress: marketAdress,
       ),
     );
     return response.messages;
   }
-}
-
-class MarketBalance {
-  Uint8List adress;
-  int balance;
-  MarketBalance(
-    this.adress,
-    this.balance,
-  );
-}
-
-class UserInfo {
-  String name;
-  int balance;
-  Uint8List mesKey;
-  List<MarketBalance> marketBalances;
-  UserInfo(
-    this.name,
-    this.balance,
-    this.mesKey,
-    this.marketBalances,
-  );
 }
