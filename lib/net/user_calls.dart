@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:grpc/grpc_web.dart';
 import 'package:sync_tree_mobile_logic/local/storage.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
