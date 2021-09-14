@@ -3,7 +3,7 @@ import 'package:grpc/grpc.dart';
 import 'api.pbgrpc.dart';
 
 final channel = ClientChannel(
-  '46.138.246.106',
+  '46.138.246.107', //106
   port: 8080,
   options: ChannelOptions(
     credentials: ChannelCredentials.insecure(),
@@ -13,7 +13,13 @@ final channel = ClientChannel(
         IdentityCodec(),
       ],
     ),
-    connectionTimeout: Duration(milliseconds: 384),
   ),
 );
-final stub = SyncTreeClient(channel);
+final stub = SyncTreeClient(
+  channel,
+  options: CallOptions(
+    timeout: Duration(
+      seconds: 2,
+    ),
+  ),
+);

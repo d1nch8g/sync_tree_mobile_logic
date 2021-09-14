@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:grpc/grpc_web.dart';
 import 'package:sync_tree_mobile_logic/local/storage.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
@@ -15,20 +16,14 @@ class UserCalls {
       keys.message.public.bytes,
       publicName,
     ]);
-    final response = await stub
-        .userCreate(
+    final response = await stub.userCreate(
       UserCreateRequest(
         publicKey: keys.personal.public.bytes,
         messsageKey: keys.message.public.bytes,
         publicName: publicName,
         sign: sign,
       ),
-    )
-        .onError((error, stackTrace) {
-      print(error);
-      print(stackTrace);
-      return Response(passed: false);
-    });
+    );
     return response.passed;
   }
 
