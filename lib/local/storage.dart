@@ -19,7 +19,7 @@ class Storage {
     prefs.setString('keys', keys);
   }
 
-  static Future<bool> checkFirstLaunch() async {
+  static Future<bool> checkIfFirstLaunch() async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.getBool('fl') ?? true;
   }
