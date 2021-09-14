@@ -29,6 +29,15 @@ class Storage {
     prefs.setBool('fl', false);
   }
 
+  static Future<bool> chechIfKeysAreSaved() async {
+    var prefs = await SharedPreferences.getInstance();
+    var keys = prefs.getString('keys');
+    if (keys == null) {
+      return false;
+    }
+    return true;
+  }
+
   static Future<Keys> loadKeys() async {
     var prefs = await SharedPreferences.getInstance();
     var keysString = prefs.getString('keys')!;
