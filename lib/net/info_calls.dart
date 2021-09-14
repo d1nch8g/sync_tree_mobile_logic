@@ -83,6 +83,8 @@ class MarketInfo {
   }
 }
 
+/// # ATTENTION
+/// all methods called by that class can throw connection error
 class InfoCalls {
   static Future<bool> selfActiveTradesByAdress(String marketAdress) async {
     var keys = await Storage.loadKeys();
