@@ -161,6 +161,7 @@ class Keys {
       private: PrivateKey.fromPEM(pem: keysListToCheck[2]),
       public: PublicKey.fromPEM(pem: keysListToCheck[3]),
     );
+    this.allKeysString = multiKeyStirng;
   }
 
   Keys.fromKeys({
