@@ -35,7 +35,7 @@ void main() {
   test('info user', () async {
     var userInfo = await InfoCalls.userInfo(testAlcoholAdress);
     if (userInfo.name != 'Alcohol') {
-      fail('user name should be equal to Alcohol');
+      fail('user name should be equal to Alcohol, not ${userInfo.name}');
     }
   });
   test('info messages', () async {

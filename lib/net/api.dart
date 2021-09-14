@@ -15,4 +15,9 @@ final channel = ClientChannel(
     ),
   ),
 );
-final stub = SyncTreeClient(channel);
+final stub = SyncTreeClient(
+  channel,
+  options: CallOptions(
+    timeout: Duration(seconds: 1),
+  ),
+);
