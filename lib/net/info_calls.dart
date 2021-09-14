@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:sync_tree_mobile_logic/local/crypto.dart';
 import 'package:sync_tree_mobile_logic/local/storage.dart';
 
 import 'api.pb.dart';

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:sync_tree_mobile_logic/local/crypto.dart';
 import 'package:sync_tree_mobile_logic/local/storage.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
@@ -34,7 +33,6 @@ class UserCalls {
   }
 
   static Future<bool> updateName(String name) async {
-    var storageKey = await Storage.loadKeys();
     var keys = await Storage.loadKeys();
     var sign = await keys.personal.private.signList([
       keys.personal.public.bytes,
@@ -57,7 +55,6 @@ class UserCalls {
   }
 
   static Future<bool> sendMain(int amount, String recieverAdress) async {
-    var keysString = await Storage.loadKeys();
     var keys = await Storage.loadKeys();
     var adressBytes = base64.decode(recieverAdress);
     var sign = await keys.personal.private.signList([
