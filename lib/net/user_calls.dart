@@ -6,6 +6,8 @@ import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
 
+/// # ATTENTION
+/// all methods called by that class can throw connection error
 class UserCalls {
   static Future<bool> create() async {
     var publicName = await Storage.loadPublicName();
