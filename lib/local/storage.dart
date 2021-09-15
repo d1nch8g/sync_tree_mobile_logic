@@ -11,6 +11,7 @@ enum Trigger {
   mainBalanceUpdate,
   marketBalanceUpdate,
   marketMessagesUpdate,
+  moveToMarketPage,
 }
 
 class Storage {
@@ -102,7 +103,7 @@ class Storage {
     prefs.setString('cache', cache);
   }
 
-  static Future<String> loadSeachCache(String cache) async {
+  static Future<String> loadSeachCache() async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.getString('cache') ?? '';
   }
