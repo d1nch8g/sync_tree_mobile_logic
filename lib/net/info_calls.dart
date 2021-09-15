@@ -46,6 +46,7 @@ class MarketInfo {
   int operationCount;
   List<int> buys;
   List<int> sells;
+  String adress;
   MarketInfo(
     this.name,
     this.messageKey,
@@ -54,6 +55,7 @@ class MarketInfo {
     this.operationCount,
     this.buys,
     this.sells,
+    this.adress,
   );
 
   List<SingleTrade> getAllBuys() {
@@ -119,6 +121,7 @@ class InfoCalls {
       response.opCount.toInt(),
       buys,
       sells,
+      base64.encode(marketAdress),
     );
     return marketInfo;
   }
