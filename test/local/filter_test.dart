@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sync_tree_mobile_logic/sync_tree_modile_logic.dart';
 
-
 void main() {
   test('filter profanity check', () {
     var checked = Filter.operateCheck('shit');
@@ -33,5 +32,4 @@ void main() {
       fail('this is normal name and should not cause any errors');
     }
   });
-  
 }

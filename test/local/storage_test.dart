@@ -5,21 +5,20 @@ import 'package:sync_tree_mobile_logic/sync_tree_modile_logic.dart';
 void main() {
   test('Storage save value', () async {
     SharedPreferences.setMockInitialValues({});
-    
+
     Storage.savePassword('abcdefg');
   });
   test('storage load value', () async {
     SharedPreferences.setMockInitialValues({
       'password': 'abcdefg',
     });
-    
+
     var loaded = await Storage.loadPassword();
     if (loaded != 'abcdefg') {
       fail('value loaded from prefs is not matching');
     }
   });
   test('stream trigger event', () {
-    
     Storage.triggerStorageEvent(
       trigger: Trigger.mainBalanceUpdate,
     );

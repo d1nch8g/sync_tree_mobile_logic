@@ -50,18 +50,19 @@ class MarketInfo {
   String workTime;
   int activeBuys;
   int activeSells;
-  MarketInfo(
-      {required this.name,
-      required this.messageKey,
-      required this.imageLink,
-      required this.description,
-      required this.operationCount,
-      required this.buys,
-      required this.sells,
-      required this.adress,
-      required this.workTime,
-      required this.activeBuys,
-      required this.activeSells});
+  MarketInfo({
+    required this.name,
+    required this.messageKey,
+    required this.imageLink,
+    required this.description,
+    required this.operationCount,
+    required this.buys,
+    required this.sells,
+    required this.adress,
+    required this.workTime,
+    required this.activeBuys,
+    required this.activeSells,
+  });
 
   List<SingleTrade> getAllBuys() {
     List<SingleTrade> tradeList = [];
@@ -128,8 +129,8 @@ class InfoCalls {
       sells: sells,
       adress: base64.encode(marketAdress),
       workTime: response.workTime,
-      activeBuys: response.activeBuys as int,
-      activeSells: response.activeSells as int,
+      activeBuys: response.activeBuys.toInt(),
+      activeSells: response.activeSells.toInt(),
     );
     return marketInfo;
   }
