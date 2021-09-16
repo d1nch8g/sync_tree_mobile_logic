@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: lib/_net/api.proto
+//  source: lib/net/api.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -339,6 +339,11 @@ class InfoMarketResponse extends $pb.GeneratedMessage {
     ..a<$fixnum.Int64>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'OpCount', $pb.PbFieldType.OU6, protoName: 'OpCount', defaultOrMaker: $fixnum.Int64.ZERO)
     ..p<$fixnum.Int64>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'buys', $pb.PbFieldType.PU6)
     ..p<$fixnum.Int64>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sells', $pb.PbFieldType.PU6)
+    ..a<$fixnum.Int64>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'activeBuys', $pb.PbFieldType.OU6, protoName: 'activeBuys', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'activeSells', $pb.PbFieldType.OU6, protoName: 'activeSells', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'inputFee', $pb.PbFieldType.OU6, protoName: 'inputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'outputFee', $pb.PbFieldType.OU6, protoName: 'outputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'workTime', protoName: 'workTime')
     ..hasRequiredFields = false
   ;
 
@@ -351,6 +356,11 @@ class InfoMarketResponse extends $pb.GeneratedMessage {
     $fixnum.Int64? opCount,
     $core.Iterable<$fixnum.Int64>? buys,
     $core.Iterable<$fixnum.Int64>? sells,
+    $fixnum.Int64? activeBuys,
+    $fixnum.Int64? activeSells,
+    $fixnum.Int64? inputFee,
+    $fixnum.Int64? outputFee,
+    $core.String? workTime,
   }) {
     final _result = create();
     if (name != null) {
@@ -373,6 +383,21 @@ class InfoMarketResponse extends $pb.GeneratedMessage {
     }
     if (sells != null) {
       _result.sells.addAll(sells);
+    }
+    if (activeBuys != null) {
+      _result.activeBuys = activeBuys;
+    }
+    if (activeSells != null) {
+      _result.activeSells = activeSells;
+    }
+    if (inputFee != null) {
+      _result.inputFee = inputFee;
+    }
+    if (outputFee != null) {
+      _result.outputFee = outputFee;
+    }
+    if (workTime != null) {
+      _result.workTime = workTime;
     }
     return _result;
   }
@@ -447,6 +472,51 @@ class InfoMarketResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(7)
   $core.List<$fixnum.Int64> get sells => $_getList(6);
+
+  @$pb.TagNumber(8)
+  $fixnum.Int64 get activeBuys => $_getI64(7);
+  @$pb.TagNumber(8)
+  set activeBuys($fixnum.Int64 v) { $_setInt64(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasActiveBuys() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearActiveBuys() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $fixnum.Int64 get activeSells => $_getI64(8);
+  @$pb.TagNumber(9)
+  set activeSells($fixnum.Int64 v) { $_setInt64(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasActiveSells() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearActiveSells() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $fixnum.Int64 get inputFee => $_getI64(9);
+  @$pb.TagNumber(10)
+  set inputFee($fixnum.Int64 v) { $_setInt64(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasInputFee() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearInputFee() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $fixnum.Int64 get outputFee => $_getI64(10);
+  @$pb.TagNumber(11)
+  set outputFee($fixnum.Int64 v) { $_setInt64(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasOutputFee() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearOutputFee() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get workTime => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set workTime($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasWorkTime() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearWorkTime() => clearField(12);
 }
 
 class InfoHasTradesRequest extends $pb.GeneratedMessage {
@@ -1646,6 +1716,9 @@ class MarketCreateRequest extends $pb.GeneratedMessage {
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Img', protoName: 'Img')
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Descr', protoName: 'Descr')
     ..a<$core.List<$core.int>>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Sign', $pb.PbFieldType.OY, protoName: 'Sign')
+    ..a<$fixnum.Int64>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'inputFee', $pb.PbFieldType.OU6, protoName: 'inputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'outputFee', $pb.PbFieldType.OU6, protoName: 'outputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'workTime', protoName: 'workTime')
     ..hasRequiredFields = false
   ;
 
@@ -1657,6 +1730,9 @@ class MarketCreateRequest extends $pb.GeneratedMessage {
     $core.String? img,
     $core.String? descr,
     $core.List<$core.int>? sign,
+    $fixnum.Int64? inputFee,
+    $fixnum.Int64? outputFee,
+    $core.String? workTime,
   }) {
     final _result = create();
     if (publicKey != null) {
@@ -1676,6 +1752,15 @@ class MarketCreateRequest extends $pb.GeneratedMessage {
     }
     if (sign != null) {
       _result.sign = sign;
+    }
+    if (inputFee != null) {
+      _result.inputFee = inputFee;
+    }
+    if (outputFee != null) {
+      _result.outputFee = outputFee;
+    }
+    if (workTime != null) {
+      _result.workTime = workTime;
     }
     return _result;
   }
@@ -1753,6 +1838,33 @@ class MarketCreateRequest extends $pb.GeneratedMessage {
   $core.bool hasSign() => $_has(5);
   @$pb.TagNumber(6)
   void clearSign() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $fixnum.Int64 get inputFee => $_getI64(6);
+  @$pb.TagNumber(7)
+  set inputFee($fixnum.Int64 v) { $_setInt64(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasInputFee() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearInputFee() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $fixnum.Int64 get outputFee => $_getI64(7);
+  @$pb.TagNumber(8)
+  set outputFee($fixnum.Int64 v) { $_setInt64(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasOutputFee() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearOutputFee() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get workTime => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set workTime($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasWorkTime() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearWorkTime() => clearField(9);
 }
 
 class MarketUpdateRequest extends $pb.GeneratedMessage {
@@ -1763,6 +1875,9 @@ class MarketUpdateRequest extends $pb.GeneratedMessage {
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Img', protoName: 'Img')
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Descr', protoName: 'Descr')
     ..a<$core.List<$core.int>>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'Sign', $pb.PbFieldType.OY, protoName: 'Sign')
+    ..a<$fixnum.Int64>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'inputFee', $pb.PbFieldType.OU6, protoName: 'inputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'outputFee', $pb.PbFieldType.OU6, protoName: 'outputFee', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'workTime', protoName: 'workTime')
     ..hasRequiredFields = false
   ;
 
@@ -1774,6 +1889,9 @@ class MarketUpdateRequest extends $pb.GeneratedMessage {
     $core.String? img,
     $core.String? descr,
     $core.List<$core.int>? sign,
+    $fixnum.Int64? inputFee,
+    $fixnum.Int64? outputFee,
+    $core.String? workTime,
   }) {
     final _result = create();
     if (publicKey != null) {
@@ -1793,6 +1911,15 @@ class MarketUpdateRequest extends $pb.GeneratedMessage {
     }
     if (sign != null) {
       _result.sign = sign;
+    }
+    if (inputFee != null) {
+      _result.inputFee = inputFee;
+    }
+    if (outputFee != null) {
+      _result.outputFee = outputFee;
+    }
+    if (workTime != null) {
+      _result.workTime = workTime;
     }
     return _result;
   }
@@ -1870,6 +1997,33 @@ class MarketUpdateRequest extends $pb.GeneratedMessage {
   $core.bool hasSign() => $_has(5);
   @$pb.TagNumber(6)
   void clearSign() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $fixnum.Int64 get inputFee => $_getI64(6);
+  @$pb.TagNumber(7)
+  set inputFee($fixnum.Int64 v) { $_setInt64(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasInputFee() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearInputFee() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $fixnum.Int64 get outputFee => $_getI64(7);
+  @$pb.TagNumber(8)
+  set outputFee($fixnum.Int64 v) { $_setInt64(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasOutputFee() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearOutputFee() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get workTime => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set workTime($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasWorkTime() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearWorkTime() => clearField(9);
 }
 
 class MarketInfoRequest extends $pb.GeneratedMessage {

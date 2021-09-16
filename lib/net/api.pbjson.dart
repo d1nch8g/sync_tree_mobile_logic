@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: lib/_net/api.proto
+//  source: lib/net/api.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
@@ -83,11 +83,16 @@ const InfoMarketResponse$json = const {
     const {'1': 'OpCount', '3': 5, '4': 1, '5': 4, '10': 'OpCount'},
     const {'1': 'buys', '3': 6, '4': 3, '5': 4, '10': 'buys'},
     const {'1': 'sells', '3': 7, '4': 3, '5': 4, '10': 'sells'},
+    const {'1': 'activeBuys', '3': 8, '4': 1, '5': 4, '10': 'activeBuys'},
+    const {'1': 'activeSells', '3': 9, '4': 1, '5': 4, '10': 'activeSells'},
+    const {'1': 'inputFee', '3': 10, '4': 1, '5': 4, '10': 'inputFee'},
+    const {'1': 'outputFee', '3': 11, '4': 1, '5': 4, '10': 'outputFee'},
+    const {'1': 'workTime', '3': 12, '4': 1, '5': 9, '10': 'workTime'},
   ],
 };
 
 /// Descriptor for `InfoMarketResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List infoMarketResponseDescriptor = $convert.base64Decode('ChJJbmZvTWFya2V0UmVzcG9uc2USEgoETmFtZRgBIAEoCVIETmFtZRIWCgZNZXNLZXkYAiABKAxSBk1lc0tleRIQCgNJbWcYAyABKAlSA0ltZxIUCgVEZXNjchgEIAEoCVIFRGVzY3ISGAoHT3BDb3VudBgFIAEoBFIHT3BDb3VudBISCgRidXlzGAYgAygEUgRidXlzEhQKBXNlbGxzGAcgAygEUgVzZWxscw==');
+final $typed_data.Uint8List infoMarketResponseDescriptor = $convert.base64Decode('ChJJbmZvTWFya2V0UmVzcG9uc2USEgoETmFtZRgBIAEoCVIETmFtZRIWCgZNZXNLZXkYAiABKAxSBk1lc0tleRIQCgNJbWcYAyABKAlSA0ltZxIUCgVEZXNjchgEIAEoCVIFRGVzY3ISGAoHT3BDb3VudBgFIAEoBFIHT3BDb3VudBISCgRidXlzGAYgAygEUgRidXlzEhQKBXNlbGxzGAcgAygEUgVzZWxscxIeCgphY3RpdmVCdXlzGAggASgEUgphY3RpdmVCdXlzEiAKC2FjdGl2ZVNlbGxzGAkgASgEUgthY3RpdmVTZWxscxIaCghpbnB1dEZlZRgKIAEoBFIIaW5wdXRGZWUSHAoJb3V0cHV0RmVlGAsgASgEUglvdXRwdXRGZWUSGgoId29ya1RpbWUYDCABKAlSCHdvcmtUaW1l');
 @$core.Deprecated('Use infoHasTradesRequestDescriptor instead')
 const InfoHasTradesRequest$json = const {
   '1': 'InfoHasTradesRequest',
@@ -283,11 +288,14 @@ const MarketCreateRequest$json = const {
     const {'1': 'Img', '3': 4, '4': 1, '5': 9, '10': 'Img'},
     const {'1': 'Descr', '3': 5, '4': 1, '5': 9, '10': 'Descr'},
     const {'1': 'Sign', '3': 6, '4': 1, '5': 12, '10': 'Sign'},
+    const {'1': 'inputFee', '3': 7, '4': 1, '5': 4, '10': 'inputFee'},
+    const {'1': 'outputFee', '3': 8, '4': 1, '5': 4, '10': 'outputFee'},
+    const {'1': 'workTime', '3': 9, '4': 1, '5': 9, '10': 'workTime'},
   ],
 };
 
 /// Descriptor for `MarketCreateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List marketCreateRequestDescriptor = $convert.base64Decode('ChNNYXJrZXRDcmVhdGVSZXF1ZXN0EhwKCVB1YmxpY0tleRgBIAEoDFIJUHVibGljS2V5EiAKC01lc3NzYWdlS2V5GAIgASgMUgtNZXNzc2FnZUtleRISCgROYW1lGAMgASgJUgROYW1lEhAKA0ltZxgEIAEoCVIDSW1nEhQKBURlc2NyGAUgASgJUgVEZXNjchISCgRTaWduGAYgASgMUgRTaWdu');
+final $typed_data.Uint8List marketCreateRequestDescriptor = $convert.base64Decode('ChNNYXJrZXRDcmVhdGVSZXF1ZXN0EhwKCVB1YmxpY0tleRgBIAEoDFIJUHVibGljS2V5EiAKC01lc3NzYWdlS2V5GAIgASgMUgtNZXNzc2FnZUtleRISCgROYW1lGAMgASgJUgROYW1lEhAKA0ltZxgEIAEoCVIDSW1nEhQKBURlc2NyGAUgASgJUgVEZXNjchISCgRTaWduGAYgASgMUgRTaWduEhoKCGlucHV0RmVlGAcgASgEUghpbnB1dEZlZRIcCglvdXRwdXRGZWUYCCABKARSCW91dHB1dEZlZRIaCgh3b3JrVGltZRgJIAEoCVIId29ya1RpbWU=');
 @$core.Deprecated('Use marketUpdateRequestDescriptor instead')
 const MarketUpdateRequest$json = const {
   '1': 'MarketUpdateRequest',
@@ -298,11 +306,14 @@ const MarketUpdateRequest$json = const {
     const {'1': 'Img', '3': 4, '4': 1, '5': 9, '10': 'Img'},
     const {'1': 'Descr', '3': 5, '4': 1, '5': 9, '10': 'Descr'},
     const {'1': 'Sign', '3': 6, '4': 1, '5': 12, '10': 'Sign'},
+    const {'1': 'inputFee', '3': 7, '4': 1, '5': 4, '10': 'inputFee'},
+    const {'1': 'outputFee', '3': 8, '4': 1, '5': 4, '10': 'outputFee'},
+    const {'1': 'workTime', '3': 9, '4': 1, '5': 9, '10': 'workTime'},
   ],
 };
 
 /// Descriptor for `MarketUpdateRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List marketUpdateRequestDescriptor = $convert.base64Decode('ChNNYXJrZXRVcGRhdGVSZXF1ZXN0EhwKCVB1YmxpY0tleRgBIAEoDFIJUHVibGljS2V5EiAKC01lc3NzYWdlS2V5GAIgASgMUgtNZXNzc2FnZUtleRISCgROYW1lGAMgASgJUgROYW1lEhAKA0ltZxgEIAEoCVIDSW1nEhQKBURlc2NyGAUgASgJUgVEZXNjchISCgRTaWduGAYgASgMUgRTaWdu');
+final $typed_data.Uint8List marketUpdateRequestDescriptor = $convert.base64Decode('ChNNYXJrZXRVcGRhdGVSZXF1ZXN0EhwKCVB1YmxpY0tleRgBIAEoDFIJUHVibGljS2V5EiAKC01lc3NzYWdlS2V5GAIgASgMUgtNZXNzc2FnZUtleRISCgROYW1lGAMgASgJUgROYW1lEhAKA0ltZxgEIAEoCVIDSW1nEhQKBURlc2NyGAUgASgJUgVEZXNjchISCgRTaWduGAYgASgMUgRTaWduEhoKCGlucHV0RmVlGAcgASgEUghpbnB1dEZlZRIcCglvdXRwdXRGZWUYCCABKARSCW91dHB1dEZlZRIaCgh3b3JrVGltZRgJIAEoCVIId29ya1RpbWU=');
 @$core.Deprecated('Use marketInfoRequestDescriptor instead')
 const MarketInfoRequest$json = const {
   '1': 'MarketInfoRequest',

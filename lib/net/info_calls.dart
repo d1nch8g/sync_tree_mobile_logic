@@ -47,16 +47,21 @@ class MarketInfo {
   List<int> buys;
   List<int> sells;
   String adress;
+  String workTime;
+  int activeBuys;
+  int activeSells;
   MarketInfo(
-    this.name,
-    this.messageKey,
-    this.imageLink,
-    this.description,
-    this.operationCount,
-    this.buys,
-    this.sells,
-    this.adress,
-  );
+      {required this.name,
+      required this.messageKey,
+      required this.imageLink,
+      required this.description,
+      required this.operationCount,
+      required this.buys,
+      required this.sells,
+      required this.adress,
+      required this.workTime,
+      required this.activeBuys,
+      required this.activeSells});
 
   List<SingleTrade> getAllBuys() {
     List<SingleTrade> tradeList = [];
@@ -114,14 +119,17 @@ class InfoCalls {
       sells.add(response.sells[i] as int);
     }
     final MarketInfo marketInfo = MarketInfo(
-      response.name,
-      response.mesKey,
-      response.img,
-      response.descr,
-      response.opCount.toInt(),
-      buys,
-      sells,
-      base64.encode(marketAdress),
+      name: response.name,
+      messageKey: response.mesKey,
+      imageLink: response.img,
+      description: response.descr,
+      operationCount: response.opCount.toInt(),
+      buys: buys,
+      sells: sells,
+      adress: base64.encode(marketAdress),
+      workTime: response.workTime,
+      activeBuys: response.activeBuys as int,
+      activeSells: response.activeSells as int,
     );
     return marketInfo;
   }
