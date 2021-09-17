@@ -48,6 +48,8 @@ class MarketInfo {
   List<int> sells;
   String adress;
   String workTime;
+  int inputFee;
+  int outputFee;
   int activeBuys;
   int activeSells;
   MarketInfo({
@@ -60,6 +62,8 @@ class MarketInfo {
     required this.sells,
     required this.adress,
     required this.workTime,
+    required this.inputFee,
+    required this.outputFee,
     required this.activeBuys,
     required this.activeSells,
   });
@@ -114,10 +118,10 @@ class InfoCalls {
     List<int> buys = [];
     List<int> sells = [];
     for (var i = 0; i < response.buys.length; i++) {
-      buys.add(response.buys[i] as int);
+      buys.add(response.buys[i].toInt());
     }
     for (var i = 0; i < response.sells.length; i++) {
-      sells.add(response.sells[i] as int);
+      sells.add(response.sells[i].toInt());
     }
     final MarketInfo marketInfo = MarketInfo(
       name: response.name,
@@ -129,6 +133,8 @@ class InfoCalls {
       sells: sells,
       adress: base64.encode(marketAdress),
       workTime: response.workTime,
+      inputFee: response.inputFee.toInt(),
+      outputFee: response.outputFee.toInt(),
       activeBuys: response.activeBuys.toInt(),
       activeSells: response.activeSells.toInt(),
     );

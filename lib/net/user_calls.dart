@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:sync_tree_mobile_logic/local/storage.dart';
+import 'package:sync_tree_mobile_logic/net/info_calls.dart';
 import 'api.pb.dart';
 import 'api.pbgrpc.dart';
 import 'api.dart';
@@ -188,5 +189,25 @@ class UserCalls {
       ),
     );
     return response.passed;
+  }
+
+  static void updateSelfInformation() async {
+    var firstLaunch = await Storage.checkIfFirstLaunch();
+    if (!firstLaunch) {
+      var keys = await Storage.loadKeys();
+      try {
+        var selfInfo = await InfoCalls.userInfo(
+          keys.personal.public.getAdressBase64(),
+        );
+        Storage.saveMainBalance(selfInfo.balance);
+        Storage.savePublicName(selfInfo.name);
+        selfInfo.marketBalances.forEach((marketBalance) {
+          Storage.saveMarketBalanceByAdress(
+            base64.encode(marketBalance.adress),
+            marketBalance.balance,
+          );
+        });
+      } catch (e) {}
+    }
   }
 }
